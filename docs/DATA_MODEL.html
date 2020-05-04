@@ -1061,14 +1061,19 @@ body .markdown-body
 <li><a href="#entities">Entities</a></li>
 </ol>
 <h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link"></a></h2>
-<p>The Alpha Beta School Next Generation web application hosts a set of data entities related to students and teachers interaction in the realm of the application. Below we will go over data entities and relationships among them.</p>
-<h2 id="entities">Entities<a class="headerlink" href="#entities" title="Permanent link"></a></h2>
+<p>The Alpha Beta School Next Generation web application hosts a set of data entities related to students, teachers and subject matters interaction in the realm of the application. Below we will go over data entities and relationships among them.</p>
+<h2 id="entities-relationships">Entities &amp; Relationships<a class="headerlink" href="#entities-relationships" title="Permanent link"></a></h2>
 <p><strong>Users</strong></p>
 <div class="codehilite"><pre>id: Bigint
 email: Text
 first_name: Text
 last_name: Text
 login: Text
+user_name: Text
+phone_number: Text
+emergency_contact: Text
+emergency_contact_phone_number: Text
+timezone: Text
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
@@ -1077,25 +1082,6 @@ updated_at: Timestamp
 <div class="codehilite"><pre>id: Bigint
 user_id: Bigint
 address: Text
-phone_number: Text
-created_at: Timestamp
-updated_at: Timestamp
-</pre></div>
-
-<p><strong>Students</strong></p>
-<div class="codehilite"><pre>id: Bigint
-first_name: Text
-last_name: Text
-age: Integer
-created_at: Timestamp
-updated_at: Timestamp
-</pre></div>
-
-<p><strong>Families</strong></p>
-<div class="codehilite"><pre>id: Bigint
-headable_id: Bigint
-headable_type: Text
-student_id: Bigint
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
@@ -1104,28 +1090,66 @@ updated_at: Timestamp
 <div class="codehilite"><pre>id: Bigint
 user_id: Bigint
 bio: Text
-locale: Text
-phone_number: Text
+created_at: Timestamp
+updated_at: Timestamp
+</pre></div>
+
+<p><strong>Students</strong></p>
+<div class="codehilite"><pre>id: Bigint
+first_name: Text
+last_name: Text
+nickname: Text
+date_of_birth: Timestamp
+age: Bigint
+created_at: Timestamp
+updated_at: Timestamp
+</pre></div>
+
+<p><strong>Family Members</strong></p>
+<div class="codehilite"><pre>id: Bigint
+parent_id: Bigint
+student_id: Bigint
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
 
 <p><strong>Specialties</strong></p>
 <div class="codehilite"><pre>id: Bigint
-name: Text
+subject: Text
+category: Text
+focus_areas: Text
 description: Text
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
 
-<p><strong>Specialty Offerings</strong></p>
+<p><strong>classes</strong></p>
 <div class="codehilite"><pre>id: Bigint
 specialty_id: Bigint
 faculty_id: Bigint
+total_cost: Bigint
+faculty_cut: Bigint
+taught_via: Text
+physical_location_address: Text
+number_of_weeks: Bigint
+occurs_on_for_a_given_week: Text
+individual_session_starts_at: Text
+per_session_minutes: Bigint
+effective_from: Timestamp
+effective_to: Timestamp
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
 
 <p><strong>Registrations</strong></p>
-<div class="codehilite"><pre>
+<div class="codehilite"><pre>id: Bigint
+class_id: Bigint
+primary_family_member_id: Bigint
+secondary_family_member_id: Bigint
+tertiary_family_member_id: Bigint
+status: Text
+total_due: Bigint
+total_due_by: Bigint
+created_at: Timestamp
+updated_at: Timestamp
 </pre></div></article></body></html>
