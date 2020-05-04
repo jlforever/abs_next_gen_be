@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api do
+    namespace :v1 do
+      resources :authentications, only: [:create]
+      resources :authentication_renewals, only: [:create]
+      resources :sign_ups, only: [:create]
+    end
+  end
 end
