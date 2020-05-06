@@ -173,6 +173,9 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    swagger-docs (0.2.9)
+      activesupport (>= 3)
+      rails (>= 3)
     thor (1.0.1)
     thread_safe (0.3.6)
     timecop (0.9.1)
@@ -211,6 +214,7 @@ DEPENDENCIES
   rspec-rails (~> 4.0.0)
   spring
   spring-watcher-listen (~> 2.0.0)
+  swagger-docs
   timecop
   webmock (= 1.8.11)
   wirble

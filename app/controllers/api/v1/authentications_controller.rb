@@ -3,6 +3,16 @@ module Api
     class AuthenticationsController < ApplicationController
       include Concerns::SessionEstablishable
 
+      swagger_controller :authentications, 'Authentications Management'
+
+      swagger_api :create do
+        summary 'Obtain an authentication access token'
+        param :form, 'user[email]', :string, :required, 'Email Address'
+        param :form, 'user[password]', :string, :required, 'Password'
+        response :unauthorized
+        response :created
+      end
+
       def create
         obtain_session_and_recognize_errors! do
           render json: { errors: { user_authentication_error: 'Invalid user' } }, status: :unauthorized
