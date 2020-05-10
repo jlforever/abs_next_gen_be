@@ -1,4 +1,4 @@
-class UserCreator
+class ParentUserCreator
   class CreationError < StandardError; end
 
   def self.create!(email:, password:)
@@ -15,9 +15,13 @@ class UserCreator
       allocate_new_user.tap do |new_user|
         raise password_invalid_message unless proper_password?
 
-        new_user.password = password
-        new_user.save!
-        new_user.reload
+        ActiveRecord::Base.transaction do
+          new_user.password = password
+          new_user.save!
+          new_user.reload.tap do |created_user|
+            Parent.create!(user: created_user)
+          end
+        end
       end
     rescue => exception
       raise CreationError.new(exception.to_s)

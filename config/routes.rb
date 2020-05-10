@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :authentications, only: [:create]
       resources :authentication_renewals, only: [:create]
       resources :sign_ups, only: [:create]
+      resources :user_profiles, only: [:index, :update]
     end
   end
 end
