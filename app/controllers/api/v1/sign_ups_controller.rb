@@ -28,7 +28,7 @@ module Api
       def user_permitted_for_session_access?
         begin
           user.present?
-        rescue UserCreator::CreationError => exception
+        rescue ParentUserCreator::CreationError => exception
           @obtained_user_creation_error = exception.to_s
           false
         end
@@ -36,7 +36,7 @@ module Api
 
       def user
         @user ||= begin
-          UserCreator.create!(email: user_params[:email], password: user_params[:password])
+          ParentUserCreator.create!(email: user_params[:email], password: user_params[:password])
         end
       end
     end

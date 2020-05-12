@@ -4,6 +4,7 @@ ruby '2.5.3'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bcrypt'
+gem 'friendly_id', '~> 5.2.4'
 gem 'jwt_sessions'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'

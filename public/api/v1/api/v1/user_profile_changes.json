@@ -1,0 +1,129 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://api.somedomain.com",
+  "resourcePath": "user_profile_changes",
+  "apis": [
+    {
+      "path": "/api/v1/user_profile_changes.json",
+      "operations": [
+        {
+          "summary": "Creating (updating) user profiles",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "Authorization",
+              "type": "string",
+              "description": "Expired Acccess Token",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[first_name]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[last_name]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[user_name]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[phone_number]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[emergency_contact]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[emergency_contact_phone_number]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[timezone]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[address1]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[address2]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[city]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[state]",
+              "type": "string",
+              "description": "Email Address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "profile[zip]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": null,
+              "message": "Created"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::UserProfileChanges#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}
