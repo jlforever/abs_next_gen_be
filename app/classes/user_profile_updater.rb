@@ -19,16 +19,16 @@ class UserProfileUpdater
     :zip
   ]
 
-  def self.update!(user, profile_params)
-    new(user, profile_params).update!
+  def self.update!(user:, profile_params:)
+    new(user: user, profile_params: profile_params).update!
   end
 
-  def initialize(user, profile_params)
+  def initialize(user:, profile_params:)
     @user = user
     @parent = user.parent
 
     (USER_PROFILE_ACCESS_PARAMS.concat(PARENT_PROFILE_ACCESS_PARAMS)).each do |param|
-      self.send "#{param}=", params[param]
+      self.send "#{param}=", profile_params[param]
     end
   end
 
@@ -45,11 +45,12 @@ class UserProfileUpdater
       ActiveRecord::Base.transaction do
         user.save!
         parent.save!
+        reset_user_slug!
 
         user
       end
     rescue => exception
-      MutationError.new(exception.to_s)
+      raise MutationError.new(exception.to_s)
     end
   end
 
@@ -70,6 +71,11 @@ class UserProfileUpdater
     phone_number.present?
   end
 
+  def reset_user_slug!
+    user.slug = nil
+    user.save!
+  end
+
   def address_parts_all_available?
     address1.present? &&
       city.present? &&
@@ -80,6 +86,7 @@ class UserProfileUpdater
   def assign_user_attributes
     user.first_name = first_name
     user.last_name = last_name
+    user.user_name = user_name
     user.phone_number = phone_number
     user.emergency_contact = emergency_contact
     user.emergency_contact_phone_number = emergency_contact_phone_number
