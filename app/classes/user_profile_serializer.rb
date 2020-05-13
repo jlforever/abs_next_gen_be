@@ -1,4 +1,4 @@
-class ParentUserProfileSerializer
+class UserProfileSerializer
   def self.serialize(user)
     new(user).serialize
   end
@@ -11,7 +11,7 @@ class ParentUserProfileSerializer
   def serialize
     {
       profile: {
-        emai: user.email,
+        email: user.email,
         user_name: user.user_name,
         slug: user.slug,
         first_name: user.first_name,
@@ -20,12 +20,15 @@ class ParentUserProfileSerializer
         emergency_contact: user.emergency_contact,
         emergency_contact_phone_number: user.emergency_contact_phone_number,
         timezone: user.timezone,
+        slug: user.slug,
         parent: {
-          address1: parent.address1,
-          address2: parent.address2,
-          city: parent.city,
-          state: parent.state,
-          zip: parent.zip
+          address1: parent&.address1,
+          address2: parent&.address2,
+          city: parent&.city,
+          state: parent&.state,
+          zip: parent&.zip,
+          created_at: parent&.created_at,
+          updated_at: parent&.updated_at
         },
         teacher: {}
       }

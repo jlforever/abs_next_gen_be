@@ -4,11 +4,6 @@ module Api
       before_action :authorize_access_request!
 
       swagger_controller :user_profile_changes, 'User Profile Changes Management'
-
-      def index
-        # TBI
-      end
-
       swagger_api :create do
         summary 'Creating (updating) user profiles'
         param :header, 'Authorization', :string, :required, 'Expired Acccess Token'
@@ -36,7 +31,7 @@ module Api
             profile_params: profile_update_params
           )
 
-          render json: ParentUserProfileSerializer.serialize(current_user.reload), status: :created
+          render json: UserProfileSerializer.serialize(current_user.reload), status: :created
         rescue UserProfileUpdater::MutationError => exception
           render json: { errors: { profile_mutation_error: exception.to_s } }, status: :internal_server_error
         end

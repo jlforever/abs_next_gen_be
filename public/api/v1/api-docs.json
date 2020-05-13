@@ -16,6 +16,10 @@
       "description": "Sign Ups Management"
     },
     {
+      "path": "/api/v1/user_profiles.{format}",
+      "description": "User Profile Retrieval Management"
+    },
+    {
       "path": "/api/v1/user_profile_changes.{format}",
       "description": "User Profile Changes Management"
     }
