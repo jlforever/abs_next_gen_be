@@ -8,6 +8,42 @@
       "path": "/api/v1/family_members.json",
       "operations": [
         {
+          "summary": "Retrieves a parent user's family members",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::FamilyMembers#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/family_members.json",
+      "operations": [
+        {
           "summary": "Creating a family member",
           "parameters": [
             {
@@ -65,6 +101,56 @@
           ],
           "nickname": "Api::V1::FamilyMembers#create",
           "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/family_members/{id}.json",
+      "operations": [
+        {
+          "summary": "Deletes a parent user's family member (student)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "family_member[first_name]",
+              "type": "string",
+              "description": "Deleting family member student first name",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "family_member[last_name]",
+              "type": "string",
+              "description": "Deleting family member student last name",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::FamilyMembers#destroy",
+          "method": "delete"
         }
       ]
     }
