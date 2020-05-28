@@ -4,6 +4,12 @@ class FamilyMember < ApplicationRecord
 
   validates :parent_id, :student_id, presence: true
 
+  scope :of_student_first_and_last_name, -> (first_name, last_name) do
+    joins(:student).
+      where('students.first_name = ? and students.last_name = ?',
+        first_name, last_name)
+  end
+
   def as_serialized_hash
     {
       id: id,
