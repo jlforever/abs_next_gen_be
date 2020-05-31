@@ -4,6 +4,7 @@ ruby '2.5.3'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bcrypt'
+gem 'configatron'
 gem 'friendly_id', '~> 5.2.4'
 gem 'jwt_sessions'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -17,6 +18,7 @@ gem 'swagger-docs'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'database_cleaner'
+  gem 'dotenv-rails', :require => 'dotenv/rails-now'
   gem 'hirb'
   gem 'pry'
   gem 'rspec-rails', '~> 4.0.0'

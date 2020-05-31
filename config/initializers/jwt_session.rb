@@ -1,3 +1,4 @@
+JWTSessions.token_store = :redis, { redis_url: configatron.redis_url }
 JWTSessions.access_exp_time = 10800
 JWTSessions.access_header  = "Authorization"
 JWTSessions.algorithm = "HS256"
