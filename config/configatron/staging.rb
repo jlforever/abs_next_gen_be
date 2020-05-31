@@ -1,0 +1,1 @@
+configatron.redis_url = ENV['REDIS_URL']
