@@ -8,7 +8,7 @@ class CoursesQueryer
   end
 
   def find_courses
-    classes = Klass.effective.tap do |classes|
+    classes = Klass.effective
     
     if family_members.present?
       classes = classes.eligible_for_family_members(family_members)
@@ -22,6 +22,6 @@ class CoursesQueryer
   attr_reader :user
 
   def family_members
-    user&.parent.family_members 
+    user&.parent&.family_members 
   end
 end

@@ -31,7 +31,12 @@ describe Klass do
     let!(:class4) { create(:klass, faculty: faculty, effective_from: Time.zone.local(2020, 6, 2, 10), effective_until: Time.zone.local(2020, 8, 13, 10)) }
 
     it 'returns klass that has not been registered by any family members' do
-      binding.pry
+      Timecop.freeze(testing_time) do
+        results = Klass.eligible_for_family_members([family_member1, family_member2])
+        expect(results.size).to eq 2
+        expect(results).to include class2
+        expect(results).to include class4
+      end
     end
   end
 end
