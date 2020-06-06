@@ -1123,12 +1123,14 @@ created_at: Timestamp
 updated_at: Timestamp
 </pre></div>
 
-<p><strong>classes</strong></p>
+<p><strong>Klasses</strong></p>
 <div class="codehilite"><pre>id: Bigint
 specialty_id: Bigint
 faculty_id: Bigint
-total_cost: Bigint
-faculty_cut: Bigint
+per_session_student_cost: Bigint
+per_session_faulty_cut: Bigint
+one_sibling_discount_percentage: Float
+two_siblings_discount_percentage: Float
 taught_via: Text
 physical_location_address: Text
 number_of_weeks: Bigint
@@ -1143,7 +1145,7 @@ updated_at: Timestamp
 
 <p><strong>Registrations</strong></p>
 <div class="codehilite"><pre>id: Bigint
-class_id: Bigint
+klass_id: Bigint
 primary_family_member_id: Bigint
 secondary_family_member_id: Bigint
 tertiary_family_member_id: Bigint

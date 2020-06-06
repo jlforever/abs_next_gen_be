@@ -10,29 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_061612) do
+ActiveRecord::Schema.define(version: 2020_06_05_050752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "classes", force: :cascade do |t|
-    t.bigint "specialty_id", null: false
-    t.bigint "faculty_id", null: false
-    t.bigint "total_cost", null: false
-    t.bigint "faculty_cut", null: false
-    t.text "taught_via", null: false
-    t.text "phyiscal_location_address"
-    t.bigint "number_of_weeks", null: false
-    t.bigint "occurs_on_for_a_given_week", null: false
-    t.text "individual_session_starts_at", null: false
-    t.bigint "per_session_minutes", null: false
-    t.datetime "effective_from", null: false
-    t.datetime "effective_unitl"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["faculty_id"], name: "index_classes_on_faculty_id"
-    t.index ["specialty_id"], name: "index_classes_on_specialty_id"
-  end
 
   create_table "faculties", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -62,6 +43,31 @@ ActiveRecord::Schema.define(version: 2020_05_18_061612) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "klasses", force: :cascade do |t|
+    t.bigint "specialty_id", null: false
+    t.bigint "faculty_id", null: false
+    t.bigint "per_session_student_cost", null: false
+    t.bigint "per_session_faulty_cut", null: false
+    t.text "taught_via", null: false
+    t.text "phyiscal_location_address"
+    t.bigint "number_of_weeks", null: false
+    t.bigint "occurs_on_for_a_given_week", null: false
+    t.text "individual_session_starts_at", null: false
+    t.bigint "per_session_minutes", null: false
+    t.datetime "effective_from", null: false
+    t.datetime "effective_until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "one_sibling_same_class_discount_rate"
+    t.float "two_siblings_same_class_discount_rate"
+    t.text "virtual_klass_platform_link"
+    t.index ["effective_from", "effective_until"], name: "idx_klasses_on_effective_from_to_until"
+    t.index ["faculty_id", "specialty_id", "effective_from"], name: "idx_klasses_on_uniq_faculty_specialty_start_time", unique: true
+    t.index ["faculty_id"], name: "index_klasses_on_faculty_id"
+    t.index ["specialty_id"], name: "index_klasses_on_specialty_id"
+    t.index ["taught_via"], name: "index_klasses_on_taught_via"
+  end
+
   create_table "parents", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -75,7 +81,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_061612) do
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.bigint "class_id", null: false
+    t.bigint "klass_id", null: false
     t.bigint "primary_family_member_id"
     t.bigint "secondary_family_member_id"
     t.bigint "tertiary_family_member_id"
@@ -84,7 +90,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_061612) do
     t.datetime "total_due_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["class_id"], name: "index_registrations_on_class_id"
+    t.index ["klass_id"], name: "index_registrations_on_klass_id"
     t.index ["primary_family_member_id"], name: "index_registrations_on_primary_family_member_id"
     t.index ["secondary_family_member_id"], name: "index_registrations_on_secondary_family_member_id"
     t.index ["tertiary_family_member_id"], name: "index_registrations_on_tertiary_family_member_id"
@@ -127,11 +133,11 @@ ActiveRecord::Schema.define(version: 2020_05_18_061612) do
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
-  add_foreign_key "classes", "faculties"
-  add_foreign_key "classes", "specialties"
   add_foreign_key "faculties", "users"
   add_foreign_key "family_members", "parents"
   add_foreign_key "family_members", "students"
+  add_foreign_key "klasses", "faculties"
+  add_foreign_key "klasses", "specialties"
   add_foreign_key "parents", "users"
-  add_foreign_key "registrations", "classes"
+  add_foreign_key "registrations", "klasses"
 end

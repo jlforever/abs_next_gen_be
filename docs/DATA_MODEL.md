@@ -81,14 +81,16 @@ created_at: Timestamp
 updated_at: Timestamp
 ```
 
-__classes__
+__Klasses__
 
 ```
 id: Bigint
 specialty_id: Bigint
 faculty_id: Bigint
-total_cost: Bigint
-faculty_cut: Bigint
+per_session_student_cost: Bigint
+per_session_faulty_cut: Bigint
+one_sibling_discount_percentage: Float
+two_siblings_discount_percentage: Float
 taught_via: Text
 physical_location_address: Text
 number_of_weeks: Bigint
@@ -99,13 +101,16 @@ effective_from: Timestamp
 effective_to: Timestamp
 created_at: Timestamp
 updated_at: Timestamp
+one_sibling_same_class_discount_rate Float
+two_siblings_same_class_discount_rate Float
+virtual_klass_platform_link Text
 ```
 
 __Registrations__
 
 ```
 id: Bigint
-class_id: Bigint
+klass_id: Bigint
 primary_family_member_id: Bigint
 secondary_family_member_id: Bigint
 tertiary_family_member_id: Bigint
