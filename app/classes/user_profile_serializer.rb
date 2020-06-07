@@ -30,7 +30,7 @@ class UserProfileSerializer
           created_at: parent&.created_at,
           updated_at: parent&.updated_at
         },
-        teacher: {}
+        faculty: {}
       }
     }
   end
