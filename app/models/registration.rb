@@ -4,6 +4,11 @@ class Registration < ApplicationRecord
   belongs_to :klass
   belongs_to :primary_family_member, class_name: 'FamilyMember', foreign_key: 'primary_family_member_id'
 
+  validates :primary_family_member_id,
+    :klass_id,
+    :status,
+    presence: true
+
   VALID_STATUSES.each do |valid_status|
     define_method :"#{valid_status}?" do
       status == valid_status
