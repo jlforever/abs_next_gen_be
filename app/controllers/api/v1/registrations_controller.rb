@@ -3,6 +3,21 @@ module Api
     class RegistrationsController < ApplicationController
       before_action :authorize_access_request!
 
+      swagger_controller :registrations, 'Registrations Management'
+
+      swagger_api :create do
+        summary 'Creating/Registering a class for a set of family members'
+        param :header, 'Authorization', :string, :required, 'Expired Acccess Token'
+        param :form, 'user_email', :string, :required, 'Parent user email'
+        param :form, 'registration[:course_id]', :string, :required, 'Registering class\'s id'
+        param :form, 'registration[primary_family_member_id]', :string, :required, 'First registering family member id'
+        param :form, 'registration[:secondary_family_member_id]', :string, :optional, 'Second registering family member id'
+        param :form, 'registration[:tertiary_family_member_id]', :string, :optional, 'Third registering family member id'
+        response :unauthorized
+        response :internal_server_error
+        response :created
+      end
+
       def create
         begin
           raise "Attempt to register with an unauthorized user with email: #{user_email}" if unauthorized_access?

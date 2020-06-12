@@ -1,6 +1,16 @@
 module Api
   module V1
     class CoursesController < ApplicationController
+
+      swagger_controller :courses, 'Courses Management'
+      swagger_api :index do
+        summary 'Retrieving unregistering, effective courses'
+        param :query, 'user_email', :string, :required, 'Parent user email'
+        response :unauthorized
+        response :internal_server_error
+        response :ok
+      end
+
       def index
         begin
           requesting_user = if parent_course_querying_params[:user_email].present?
