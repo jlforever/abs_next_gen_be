@@ -1,0 +1,80 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://api.somedomain.com",
+  "resourcePath": "registrations",
+  "apis": [
+    {
+      "path": "/api/v1/registrations.json",
+      "operations": [
+        {
+          "summary": "Creating/Registering a class for a set of family members",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "Authorization",
+              "type": "string",
+              "description": "Expired Acccess Token",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:course_id]",
+              "type": "string",
+              "description": "Registering class's id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[primary_family_member_id]",
+              "type": "string",
+              "description": "First registering family member id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:secondary_family_member_id]",
+              "type": "string",
+              "description": "Second registering family member id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:tertiary_family_member_id]",
+              "type": "string",
+              "description": "Third registering family member id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": null,
+              "message": "Created"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

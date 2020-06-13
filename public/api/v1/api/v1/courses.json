@@ -1,0 +1,45 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://api.somedomain.com",
+  "resourcePath": "courses",
+  "apis": [
+    {
+      "path": "/api/v1/courses.json",
+      "operations": [
+        {
+          "summary": "Retrieving unregistering, effective courses",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Courses#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

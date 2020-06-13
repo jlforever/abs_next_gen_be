@@ -12,8 +12,16 @@
       "description": "Authentication Renewals (refreshes) Management"
     },
     {
+      "path": "/api/v1/courses.{format}",
+      "description": "Courses Management"
+    },
+    {
       "path": "/api/v1/family_members.{format}",
       "description": "Family members management"
+    },
+    {
+      "path": "/api/v1/registrations.{format}",
+      "description": "Registrations Management"
     },
     {
       "path": "/api/v1/sign_ups.{format}",

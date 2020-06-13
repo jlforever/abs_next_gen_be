@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_06_052838) do
+ActiveRecord::Schema.define(version: 2020_06_10_072120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_052838) do
     t.text "taught_via", null: false
     t.text "phyiscal_location_address"
     t.bigint "number_of_weeks", null: false
-    t.bigint "occurs_on_for_a_given_week", null: false
+    t.text "occurs_on_for_a_given_week", null: false
     t.text "individual_session_starts_at", null: false
     t.bigint "per_session_minutes", null: false
     t.datetime "effective_from", null: false
