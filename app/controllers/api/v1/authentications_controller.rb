@@ -14,6 +14,7 @@ module Api
       end
 
       def create
+        Rails.logger.info "hello I am in initialize place of authentication"
         obtain_session_and_recognize_errors! do
           render json: { errors: { user_authentication_error: 'Invalid user' } }, status: :unauthorized
         end
