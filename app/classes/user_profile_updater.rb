@@ -60,7 +60,8 @@ class UserProfileUpdater
   attr_accessor *(USER_PROFILE_ACCESS_PARAMS.concat(PARENT_PROFILE_ACCESS_PARAMS))
 
   def user_name_not_unqiue?
-    User.where(user_name: user_name).present?
+    user.user_name != user_name &&
+      User.where(user_name: user_name).present?
   end
 
   def name_available?
