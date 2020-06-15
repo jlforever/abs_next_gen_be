@@ -40,7 +40,22 @@ describe Api::V1::UserProfileChangesController, type: :request do
       expect(body[:profile][:parent][:address1]).to eq '305 3rd St'
       expect(body[:profile][:parent][:zip]).to eq '09165'
     end
-  
+
+    it 'enables consecutive updates' do
+      post '/api/v1/user_profile_changes', params: update_user_profile_params, headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+
+      expect(response.status).to eq 201
+      update_user_profile_params[:profile][:phone_number] = '616-116-1169'
+      update_user_profile_params[:profile][:emergency_contact] = 'Grant Sonny'
+      post '/api/v1/user_profile_changes', params: update_user_profile_params, headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+      expect(response.status).to eq 201
+      update_user_profile_params[:profile][:user_name] = 'Haniti'
+      post '/api/v1/user_profile_changes', params: update_user_profile_params, headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+      expect(response.status).to eq 201
+
+      expect(JSON.parse(response.body).with_indifferent_access[:profile][:user_name]).to eq 'Haniti'
+    end
+
     context 'with data malformed or incomplete issues' do
       it 'encounters an user name already taken error' do
         create(:user, password: 'aaaeee11122$', user_name: 'Tempt')
