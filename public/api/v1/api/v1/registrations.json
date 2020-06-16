@@ -8,6 +8,42 @@
       "path": "/api/v1/registrations.json",
       "operations": [
         {
+          "summary": "Retrieve user specific owned registrations",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/registrations.json",
+      "operations": [
+        {
           "summary": "Creating/Registering a class for a set of family members",
           "parameters": [
             {

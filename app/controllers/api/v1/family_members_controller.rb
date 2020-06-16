@@ -2,9 +2,9 @@ module Api
   module V1
     class FamilyMembersController < ApplicationController
       before_action :authorize_access_request!
-      
+
       swagger_controller :family_members, 'Family members management'
-      
+
       swagger_api :create do
         summary 'Creating a family member'
         param :header, 'Authorization', :string, :required, 'Expired Acccess Token'

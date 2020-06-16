@@ -29,14 +29,29 @@ module Api
             family_member2,
             family_member3
           )
-          render json: { registration: registration }, status: :created
+          render json: { registration: registration.as_serialized_hash }, status: :created
         rescue RegistrationCreator::CreationError => exception
           render json: { errors: { registration_creation_error: exception.to_s } }, status: :internal_server_error
         end
       end
 
+      swagger_api :index do
+        summary 'Retrieve user specific owned registrations'
+        param :query, 'user_email', :string, :required, 'Parent user email'
+        response :unauthorized
+        response :internal_server_error
+        response :ok
+      end
+
       def index
-        # TBI
+        begin
+          raise "Unauthorized access: unable to retrieve registrations with email: #{user_email}" if unauthorized_access?
+
+          registrations = Registration.not_failed.of_parent_user(current_user)
+          render json: { registrations: registrations.map(&:as_serialized_hash) }, status: :ok
+        rescue => exception
+          render json: { errors: { registrations_retrieval_error: exception.to_s} }, status: :internal_server_error
+        end
       end
 
       private
