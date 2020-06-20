@@ -31,6 +31,26 @@ describe Api::V1::RegistrationsController, type: :request do
     establish_valid_token!(user)
   end
 
+  describe '#index' do
+    let!(:registration_1) { create(:registration, klass: class1, primary_family_member: family_member1) }
+    let!(:registration_2) { create(:registration, klass: class2, primary_family_member: family_member1, secondary_family_member_id: family_member3) }
+
+    it 'retrieves the parent user\'s registration for the family members' do
+      get '/api/v1/registrations', params: { user_email: user.email }, headers: { 'Authorization' => "Bearer #{@token.access}" }
+      expect(response.status).to eq 200
+      body = JSON.parse(response.body).with_indifferent_access
+      expect(body[:registrations].map { |r| r[:id] }).to match_array([registration_1.id, registration_2.id])
+    end
+
+    it 'raises unauthorized error' do
+      get '/api/v1/registrations', params: { user_email: user2.email }, headers: { 'Authorization' => "Bearer #{@token.access}" }
+      expect(response.status).to eq 500
+      body = JSON.parse(response.body).with_indifferent_access
+      expect(body[:errors][:registrations_retrieval_error]).
+        to eq "Unauthorized access: unable to retrieve registrations with email: #{user2.email}"
+    end
+  end
+
   describe '#create' do
     context 'when no first family members is missing' do
       it 'raises an error indicating no primary family member' do
@@ -74,7 +94,7 @@ describe Api::V1::RegistrationsController, type: :request do
       post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
       expect(response.status).to eq 201
       body = JSON.parse(response.body).with_indifferent_access
-      expect(body[:registration][:klass_id]).to eq params[:registration][:course_id]
+      expect(body[:registration][:course][:id]).to eq params[:registration][:course_id]
       expect(body[:registration][:primary_family_member_id]).to eq family_member1.id
       expect(body[:registration][:secondary_family_member_id]).to eq family_member3.id
       expect(body[:registration][:total_due]).to eq 60000
