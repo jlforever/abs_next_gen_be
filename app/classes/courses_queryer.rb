@@ -9,9 +9,9 @@ class CoursesQueryer
 
   def find_courses
     classes = Klass.effective
-    
-    if family_members.present?
-      classes = classes.eligible_for_family_members(family_members)
+
+    if parent.present?
+      classes = classes.find_all { |course| !parent_user_registered_courses.include?(course) }
     end
 
     classes
@@ -21,7 +21,18 @@ class CoursesQueryer
 
   attr_reader :user
 
-  def family_members
-    user&.parent&.family_members 
+  #def family_members
+  #  user&.parent&.family_members 
+  #end
+
+  def parent
+    @parent_user ||= user&.parent
+  end
+
+  def parent_user_registered_courses
+    @parent_user_registered_courses ||= begin
+      registrations = Registration.not_failed.of_parent_user(parent.user)
+      registrations.map(&:klass)
+    end
   end
 end

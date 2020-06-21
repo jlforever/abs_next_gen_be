@@ -21,24 +21,6 @@ class Klass < ApplicationRecord
     )
   end
 
-  scope :eligible_for_family_members, ->(family_members) do
-    family_member_ids = family_members.map(&:id).join(',')
-    sql = <<-SQL
-      SELECT klasses.id
-      FROM klasses left join registrations on registrations.klass_id = klasses.id
-      WHERE (registrations.id is null) OR
-        (
-          registrations.status <> 'failed' AND
-          registrations.primary_family_member_id not in (#{family_member_ids}) AND
-          registrations.secondary_family_member_id not in (#{family_member_ids}) AND
-          registrations.tertiary_family_member_id not in (#{family_member_ids})
-        )
-    SQL
-
-    ids = ActiveRecord::Base.connection.execute(sql).field_values('id')
-    where(id: ids)
-  end
-
   def as_serialized_hash
     {
       id: id,
