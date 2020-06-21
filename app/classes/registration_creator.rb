@@ -22,7 +22,11 @@ class RegistrationCreator
 
       registration = Registration.create!(registration_create_params)
     rescue => exception
-      raise CreationError.new(exception.to_s)
+      if exception.to_s.match(/uniq_klass_primary_family_membe/)
+        raise CreationError.new('You cannot have your kid(s) register the same class more than once')
+      else
+        raise CreationError.new(exception.to_s)
+      end
     end
   end
 

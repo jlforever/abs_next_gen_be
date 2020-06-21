@@ -52,6 +52,14 @@ describe RegistrationCreator do
       expect(registration.total_due).to eq 40000
     end
 
+    it 'blocks same family member registering the same course for more than once' do
+      described_class.create!(user, class1.id, family_member1)
+
+      expect do
+        described_class.create!(user, class1.id, family_member1)
+      end.to raise_error(described_class::CreationError, /same class more than once/)
+    end
+
     it 'registers a course for a set of family members' do
       expect do
         described_class.create!(user, class1.id, family_member1, family_member3)

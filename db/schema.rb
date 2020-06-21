@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_072120) do
+ActiveRecord::Schema.define(version: 2020_06_21_212623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_072120) do
     t.datetime "total_due_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["klass_id", "primary_family_member_id"], name: "idx_registrations_on_uniq_klass_primary_family_member", unique: true
     t.index ["klass_id"], name: "index_registrations_on_klass_id"
     t.index ["primary_family_member_id"], name: "index_registrations_on_primary_family_member_id"
     t.index ["secondary_family_member_id"], name: "index_registrations_on_secondary_family_member_id"
