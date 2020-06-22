@@ -17,6 +17,12 @@ describe RegistrationCreator do
   let!(:family_member3) { create(:family_member, parent: parent, student: student3) }
 
   describe '.create!' do
+    before do
+      @fake_mailer = double('fake_mailer', deliver_now: nil)
+      allow(RegistrationMailer).to receive(:registration_confirmation).and_return(@fake_mailer)
+      allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
+    end
+
     context 'when no first family members is missing' do
       it 'raises an error indicating no primary family member' do
         expect do
@@ -50,11 +56,15 @@ describe RegistrationCreator do
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.klass).to eq class1
       expect(registration.total_due).to eq 40000
+      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
 
     it 'blocks same family member registering the same course for more than once' do
       described_class.create!(user, class1.id, family_member1)
-
+      registration = Registration.last
+      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
       expect do
         described_class.create!(user, class1.id, family_member1)
       end.to raise_error(described_class::CreationError, /same class more than once/)
@@ -70,6 +80,8 @@ describe RegistrationCreator do
       expect(registration.secondary_family_member_id).to eq family_member3.id
       expect(registration.klass).to eq class1
       expect(registration.total_due).to eq 60000
+      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
   end
 end

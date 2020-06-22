@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p><%= "Dear " + @parent_first_name + "," %></p>
+    <p><%= "We are very pleased that you've registered with Alpha Beta Academy. Please make sure to send a PayPal payment of an amount of $" + @fee.to_s + " payable to SYL4EVER@GMAIL.COM by " + @total_due_by.strftime("%m-%d-%Y %H:%M:%S") + "." %></p> 
+    <p>Once we have received the payment and have processed the registration, we will send out a confirmation email detailing the next steps.</p>
+
+    <p>Below are some quick tips:</p>
+    <ul>
+        <li>All classes will be conducted using Zoom.</li>
+        <li>All students are required to attend all regularly scheduled classes unless an absence has been discussed with Miss Serena.</li>
+        <li>All students are expected to arrive 5 minutes prior to the start time of each class.</li>
+        <li>All students are expected to sit in the chair and have a clear table in the front with the study papers, pencils and markers.</li>
+    </ul>
+
+    <p>Thanks,</p>
+    
+    <p>------------------------------</p>
+    <p>ABLS Admin</p>
+    <p><a href="www.alphabetaschool.org">www.alphabetaschool.org</a></p>
+    <p><%= Time.now.strftime("%m-%d-%Y %H:%M:%S") %></p>
+    <p>------------------------------</p>
+  </body>
+</html>

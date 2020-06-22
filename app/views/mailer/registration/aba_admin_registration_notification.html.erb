@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>Dear ABLS Admin,</p>
+    
+    <p>A new registration has just came through. Below are the detailed info.</p>
+    <br/>
+    <table>
+        <tr><td><b>Kids' Name(s): </b></td><td><%= @children_names %></td></tr>
+        <tr><td><b>Parent's Name: </b></td><td><%= @parent_first_name + ' ' + @parent_last_name %></td></tr>
+        <tr><td><b>Phone Number: </b></td><td><%= @parent_phone_number %></td></tr>
+        <tr><td><b>Email: </b></td><td><%= @parent_email %></td></tr>
+        <tr><td><b>Studied Subject: </b></td><td><%= @studied_subject %></td></tr>
+        <tr><td><b>Studied Level: </b></td><td><%= @studied_level %></td></tr>
+        <tr><td><b>Registered on: </b></td><td><%= @registered_on %></td></tr>
+    </table>
+    
+    <p>------------------------------</p>
+    <p>ABLS Admin</p>
+    <p><a href="www.alphabetaschool.org">www.alphabetaschool.org</a></p>
+    <p><%= Time.now.strftime("%m-%d-%Y %H:%M:%S") %></p>
+    <p>------------------------------</p>
+  </body>
+</html>

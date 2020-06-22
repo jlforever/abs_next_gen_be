@@ -1,0 +1,23 @@
+Dear <%= @parent_first_name %>,
+
+We are very pleased that you've registered with Alpha Beta Academy. Please make sure to send a PayPal payment of an amount of $"<%= @fee.to_s %> payable to SYL4EVER@GMAIL.COM by <%= @total_due_by %>.
+
+Once we have received the payment and have processed the registration, we will send out a confirmation email detailing the next steps.
+
+Below are some quick notes and tips:
+
+- All classes will be conducted using Zoom.
+
+- All students are required to attend all regularly scheduled classes unless an absence has been discussed with Miss Serena.
+
+- All students are expected to arrive 5 minutes prior to the start time of each class.
+
+- All students are expected to sit in the chair and have a clear table in the front with the study papers, pencils and markers.
+
+Thanks,
+
+------------------------------
+ABLS Admin
+www.alphabetaschool.org
+<%= Time.now.strftime("%m-%d-%Y %H:%M:%S") %>
+------------------------------

@@ -52,6 +52,12 @@ describe Api::V1::RegistrationsController, type: :request do
   end
 
   describe '#create' do
+    before do
+      @fake_mailer = double('fake_mailer', deliver_now: nil)
+      allow(RegistrationMailer).to receive(:registration_confirmation).and_return(@fake_mailer)
+      allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
+    end
+
     context 'when no first family members is missing' do
       it 'raises an error indicating no primary family member' do
         post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
@@ -98,6 +104,9 @@ describe Api::V1::RegistrationsController, type: :request do
       expect(body[:registration][:primary_family_member_id]).to eq family_member1.id
       expect(body[:registration][:secondary_family_member_id]).to eq family_member3.id
       expect(body[:registration][:total_due]).to eq 60000
+      registration = Registration.last
+      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
   end
 end
