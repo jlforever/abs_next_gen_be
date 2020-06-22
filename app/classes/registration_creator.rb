@@ -21,6 +21,9 @@ class RegistrationCreator
       raise 'Not all of the specified family members are from the same family' unless family_members_together?
 
       registration = Registration.create!(registration_create_params)
+      RegistrationMailer.registration_confirmation(registration).deliver_now
+      RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
+      registration
     rescue => exception
       if exception.to_s.match(/uniq_klass_primary_family_membe/)
         raise CreationError.new('You cannot have your kid(s) register the same class more than once')
