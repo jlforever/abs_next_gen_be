@@ -1141,6 +1141,9 @@ effective_from: Timestamp
 effective_to: Timestamp
 created_at: Timestamp
 updated_at: Timestamp
+one_sibling_same_class_discount_rate Float
+two_siblings_same_class_discount_rate Float
+virtual_klass_platform_link Text
 </pre></div>
 
 <p><strong>Registrations</strong></p>
@@ -1152,6 +1155,25 @@ tertiary_family_member_id: Bigint
 status: Text
 total_due: Bigint
 total_due_by: Bigint
+created_at: Timestamp
+updated_at: Timestamp
+</pre></div>
+
+<p><strong>Class Sessions</strong></p>
+<div class="codehilite"><pre>id: Bigint
+registration_id: Bigint
+status: Text
+effective_for: Timestamp
+created_at: Timestamp
+updated_at: Timestamp
+</pre></div>
+
+<p><strong>Class Session Materials</strong></p>
+<div class="codehilite"><pre>id: Bigint
+name: Text
+class_session_id: Bigint
+audience: Text
+mime_type: Text
 created_at: Timestamp
 updated_at: Timestamp
 </pre></div></article></body></html>

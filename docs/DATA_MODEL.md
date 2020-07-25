@@ -120,3 +120,26 @@ total_due_by: Bigint
 created_at: Timestamp
 updated_at: Timestamp
 ```
+
+__Class Sessions__
+
+```
+id: Bigint
+registration_id: Bigint
+status: Text
+effective_for: Timestamp
+created_at: Timestamp
+updated_at: Timestamp
+```
+
+__Class Session Materials__
+
+```
+id: Bigint
+name: Text
+class_session_id: Bigint
+audience: Text
+mime_type: Text
+created_at: Timestamp
+updated_at: Timestamp
+```

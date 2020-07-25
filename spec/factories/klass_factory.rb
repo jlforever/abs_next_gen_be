@@ -6,7 +6,7 @@ FactoryBot.define do
     per_session_faulty_cut { 6000 }
     taught_via { 'Default' }
     number_of_weeks { 10 }
-    occurs_on_for_a_given_week { 'M, W' }
+    occurs_on_for_a_given_week { 'Mon, Wed' }
     individual_session_starts_at { '17:30' }
     per_session_minutes { 45 }
     effective_from { Time.zone.now }

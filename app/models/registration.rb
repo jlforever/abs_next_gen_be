@@ -3,11 +3,14 @@ class Registration < ApplicationRecord
 
   belongs_to :klass
   belongs_to :primary_family_member, class_name: 'FamilyMember', foreign_key: 'primary_family_member_id'
+  has_many :class_sessions
 
   validates :primary_family_member_id,
     :klass_id,
     :status,
     presence: true
+
+  validates :status, inclusion: { in: VALID_STATUSES }
 
   scope :not_failed, -> { where('registrations.status <> ?', 'failed') }
   scope :of_parent_user, ->(parent_user) do
@@ -24,6 +27,13 @@ class Registration < ApplicationRecord
     end
   end
 
+  def paid!
+    self.status = 'paid'
+    save!
+
+    PaidClassSessionCreateJob.perform_later(self)
+  end
+
   def as_serialized_hash
     {
       id: id,
@@ -37,5 +47,10 @@ class Registration < ApplicationRecord
       created_at: created_at,
       updated_at: updated_at
     }
+  end
+
+  def spawned_session_dates
+
+    effective_from
   end
 end

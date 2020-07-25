@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_212623) do
+ActiveRecord::Schema.define(version: 2020_07_06_203545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "class_session_materials", force: :cascade do |t|
+    t.bigint "class_session_id", null: false
+    t.text "name", null: false
+    t.text "audience", null: false
+    t.text "mime_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_session_id"], name: "index_class_session_materials_on_class_session_id"
+  end
+
+  create_table "class_sessions", force: :cascade do |t|
+    t.bigint "registration_id", null: false
+    t.text "status", null: false
+    t.datetime "effective_for", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registration_id"], name: "index_class_sessions_on_registration_id"
+  end
 
   create_table "faculties", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -135,6 +154,8 @@ ActiveRecord::Schema.define(version: 2020_06_21_212623) do
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
+  add_foreign_key "class_session_materials", "class_sessions"
+  add_foreign_key "class_sessions", "registrations"
   add_foreign_key "faculties", "users"
   add_foreign_key "family_members", "parents"
   add_foreign_key "family_members", "students"
