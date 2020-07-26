@@ -21,6 +21,28 @@ class Klass < ApplicationRecord
     )
   end
 
+  def occur_on_week_days
+    occurs_on_for_a_given_week.split(',').map(&:strip)
+  end
+
+  def first_session_date
+    first_occur_wod = occur_on_week_days.first
+
+    offset_days = (0..7).to_a.detect do |day_increment|
+      (effective_from + day_increment.days).strftime('%a') == first_occur_wod
+    end
+
+    effective_from + offset_days.days
+  end
+
+  def expected_session_dates
+    occur_ons = occur_on_week_days
+
+    (first_session_date.to_date..effective_until.to_date).find_all do |specific_date|
+      occur_ons.include?(specific_date.strftime('%a'))
+    end
+  end
+
   def as_serialized_hash
     {
       id: id,

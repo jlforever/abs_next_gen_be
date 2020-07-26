@@ -18,4 +18,11 @@ describe Klass do
       end
     end
   end
+
+  describe '#first_session_date' do
+    it 'identifies a datetime within effective klass range as the first session date' do
+      expect(class1.first_session_date.to_date).
+        to eq Time.parse('2020-06-01').to_date
+    end
+  end
 end

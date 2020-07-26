@@ -11,8 +11,8 @@ module CoursesSeeders
     }.freeze
 
     KLASSES = {
-      'Chinese - Basic Chinese 1 - Miss BaoBao' => [1500, 6000, 'Zoom', 9, 'TUES, THURS', '10:00 Eastern', '45'],
-      'Spanish - Intro Spanish 1 - Miss Gabby' => [2000, 4000, 'Zoom', 9, 'MON', '18:30 Eastern', '45']
+      'Chinese - Basic Chinese 1 - Miss BaoBao' => [1500, 6000, 'Zoom', 9, 'Tue, Thur', '14:00', '45'],
+      'Spanish - Intro Spanish 1 - Miss Gabby' => [2000, 4000, 'Zoom', 9, 'Mon', '22:30', '45']
     }.freeze
 
     EFFECTIVE_FROM = '2020-06-29'
