@@ -5,11 +5,61 @@
   "resourcePath": "registrations",
   "apis": [
     {
+      "path": "/api/v1/registrations/{id}/class_sessions.json",
+      "operations": [
+        {
+          "summary": "Retrieve user registered class's sessions",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "Authorization",
+              "type": "string",
+              "description": "User procured Acccess Token",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "id",
+              "type": "integer",
+              "description": "Registration's unique identifier",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#class_sessions",
+          "method": "get"
+        }
+      ]
+    },
+    {
       "path": "/api/v1/registrations.json",
       "operations": [
         {
           "summary": "Retrieve user specific owned registrations",
           "parameters": [
+            {
+              "paramType": "header",
+              "name": "Authorization",
+              "type": "string",
+              "description": "User procured Acccess Token",
+              "required": true
+            },
             {
               "paramType": "query",
               "name": "user_email",
@@ -50,7 +100,7 @@
               "paramType": "header",
               "name": "Authorization",
               "type": "string",
-              "description": "Expired Acccess Token",
+              "description": "User procured Acccess Token",
               "required": true
             },
             {

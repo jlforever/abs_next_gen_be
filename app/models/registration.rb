@@ -21,6 +21,8 @@ class Registration < ApplicationRecord
     ').where('lower(first_member_parent_user.email) = ?', parent_user.email.downcase)
   end
 
+  delegate :individual_session_starts_at, to: :klass
+
   VALID_STATUSES.each do |valid_status|
     define_method :"#{valid_status}?" do
       status == valid_status
