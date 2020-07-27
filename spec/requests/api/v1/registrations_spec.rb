@@ -31,6 +31,35 @@ describe Api::V1::RegistrationsController, type: :request do
     establish_valid_token!(user)
   end
 
+  describe '#class_sessions' do
+    let!(:registration_1) { create(:registration, klass: class1, primary_family_member: family_member1) }
+    let!(:registration_2) { create(:registration, klass: class1, primary_family_member: family_member2) }
+    let!(:class_sessions) do
+      registration_1.klass.expected_session_dates.map do |specific_date|
+        create(:class_session, registration: registration_1, effective_for: specific_date)
+      end
+    end
+
+    it 'raises unauthorized error' do
+      get "/api/v1/registrations/#{registration_2.id}/class_sessions", headers: { 'Authorization' => "Bearer #{@token.access}" }
+      expect(response.status).to eq 500
+      expect(JSON.parse(response.body).with_indifferent_access[:errors][:registered_class_session_retrieval_error]).
+        to match(/unable to retrieve registered class's sessions/)
+    end
+
+    it 'retrieves the registration specific class sessions' do
+      get "/api/v1/registrations/#{registration_1.id}/class_sessions", headers: { 'Authorization' => "Bearer #{@token.access}" }
+      body = JSON.parse(response.body).with_indifferent_access
+      expect(body['class_sessions'].size).
+        to eq class_sessions.size
+      session1 = body['class_sessions'].first
+      expect(ClassSession.find(session1['id']).registration).
+        to eq registration_1
+      expect(session1.individual_session_starts_at).
+        to eq registration_1.klass.individual_session_starts_at
+    end
+  end
+
   describe '#index' do
     let!(:registration_1) { create(:registration, klass: class1, primary_family_member: family_member1) }
     let!(:registration_2) { create(:registration, klass: class2, primary_family_member: family_member1, secondary_family_member_id: family_member3) }
