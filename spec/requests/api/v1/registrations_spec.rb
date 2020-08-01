@@ -55,7 +55,7 @@ describe Api::V1::RegistrationsController, type: :request do
       session1 = body['class_sessions'].first
       expect(ClassSession.find(session1['id']).registration).
         to eq registration_1
-      expect(session1.individual_session_starts_at).
+      expect(session1['individual_session_starts_at']).
         to eq registration_1.klass.individual_session_starts_at
     end
   end

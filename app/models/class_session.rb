@@ -2,6 +2,7 @@ class ClassSession < ApplicationRecord
   VALID_STATUSES = ['upcoming', 'active', 'passed']
 
   belongs_to :registration
+  has_many :materials, class_name: 'ClassSessionMaterial', foreign_key: 'class_session_id'
 
   validates :registration_id, :effective_for, :status, presence: true
   validates :status, inclusion: { in: VALID_STATUSES }

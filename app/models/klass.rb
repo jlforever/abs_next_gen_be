@@ -21,6 +21,10 @@ class Klass < ApplicationRecord
     )
   end
 
+  def materials_holding_folder_name
+    "#{specialty.subject}_#{specialty.category}_#{faculty.name}_#{effective_from.strftime('%m-%d-%Y')}"
+  end
+
   def occur_on_week_days
     occurs_on_for_a_given_week.split(',').map(&:strip)
   end
