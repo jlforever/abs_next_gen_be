@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.3'
 
+gem 'aws-sdk'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bcrypt'
 gem 'configatron'
