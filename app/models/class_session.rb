@@ -14,9 +14,23 @@ class ClassSession < ApplicationRecord
       id: id,
       status: status,
       effective_for: effective_for,
+      student_materials: student_specific_materials,
+      teacher_materials: teacher_specific_materials,
       individual_session_starts_at: individual_session_starts_at,
       created_at: created_at,
       updated_at: updated_at
     }
+  end
+
+  def student_specific_materials
+    materials.find_all do |material|
+      material.audience == 'students'
+    end
+  end
+
+  def teacher_specific_materials
+    materials.find_all do |material|
+      material.audience == 'teacher'
+    end
   end
 end
