@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :authentications, only: [:create]
       resources :authentication_renewals, only: [:create]
       resources :courses, only: [:index]
+      resources :class_sessions, only: [:show]
       resources :family_members, only: [:create, :index, :destroy]
       resources :registrations, only: [:create, :index] do
         member do

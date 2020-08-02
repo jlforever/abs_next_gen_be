@@ -13,4 +13,16 @@ class ClassSessionMaterial < ApplicationRecord
       name
     )
   end
+
+  def as_serialized_hash
+    {
+      id: id,
+      name: name,
+      material_access_url: material_access_url,
+      mime_type: mime_type,
+      perspective: audience,
+      created_at: created_at,
+      updated_at: updated_at
+    }
+  end
 end
