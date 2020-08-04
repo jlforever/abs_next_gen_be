@@ -21,6 +21,22 @@ class User < ApplicationRecord
     password == clear_password
   end
 
+  def generate_password_reset_token!
+    begin
+      self.password_reset_token = SecureRandom.urlsafe_base64
+    end while User.exists?(password_reset_token: self.password_reset_token)
+
+    self.password_reset_token_expires_at = 1.day.from_now
+    save!
+  end
+
+  def clear_password_reset_token!
+    self.reset_password_token = nil
+    self.reset_password_token_expires_at = nil
+
+    save!
+  end
+
   private
 
   def slug_builder
