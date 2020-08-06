@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :courses, only: [:index]
       resources :class_sessions, only: [:show]
       resources :family_members, only: [:create, :index, :destroy]
+      resources :password_reset_requests, only: [:create]
       resources :registrations, only: [:create, :index] do
         member do
           get 'class_sessions'
