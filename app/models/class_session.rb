@@ -14,8 +14,8 @@ class ClassSession < ApplicationRecord
       id: id,
       status: status,
       effective_for: effective_for,
-      student_materials: student_specific_materials,
-      teacher_materials: teacher_specific_materials,
+      student_materials: student_specific_materials.map(&:as_serialized_hash),
+      teacher_materials: teacher_specific_materials.map(&:as_serialized_hash),
       individual_session_starts_at: individual_session_starts_at,
       created_at: created_at,
       updated_at: updated_at

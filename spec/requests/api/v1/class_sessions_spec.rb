@@ -50,6 +50,8 @@ describe Api::V1::ClassSessionsController do
       file_path,
       file_type
     )
+
+    allow_any_instance_of(ClassSessionMaterial).to receive(:material_access_url).and_return('http://s3.aws/example-material')
   end
 
   describe '#show' do
@@ -70,6 +72,7 @@ describe Api::V1::ClassSessionsController do
       expect(body['class_session']['student_materials'].size).to eq 1
       expect(body['class_session']['student_materials'].first['mime_type']).to eq 'image/jpg'
       expect(body['class_session']['student_materials'].first['name']).to eq 'image1.jpg'
+      expect(body['class_session']['student_materials'].first['material_access_url']).to eq 'http://s3.aws/example-material'
     end
   end
 end
