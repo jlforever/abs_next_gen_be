@@ -16,8 +16,16 @@
       "description": "Courses Management"
     },
     {
+      "path": "/api/v1/class_sessions.{format}",
+      "description": "Class sessions management"
+    },
+    {
       "path": "/api/v1/family_members.{format}",
       "description": "Family members management"
+    },
+    {
+      "path": "/api/v1/password_resets.{format}",
+      "description": "Password resetting management"
     },
     {
       "path": "/api/v1/registrations.{format}",

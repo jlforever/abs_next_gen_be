@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :class_sessions, only: [:show]
       resources :family_members, only: [:create, :index, :destroy]
       resources :password_reset_requests, only: [:create]
+      resources :password_resets, param: :reset_token, constraints: { reset_token: /[\-\d\w]+/ }, only: [:edit, :update]
       resources :registrations, only: [:create, :index] do
         member do
           get 'class_sessions'

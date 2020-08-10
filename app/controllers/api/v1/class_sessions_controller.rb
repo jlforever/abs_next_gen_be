@@ -3,6 +3,16 @@ module Api
     class ClassSessionsController < ApplicationController
       before_action :authorize_access_request!
 
+      swagger_controller :class_sessions, 'Class sessions management'
+
+      swagger_api :show do
+        summary 'Returns a specific class session data'
+        param :query, 'id', :integer, :required, 'unique identifier of the class session'
+        response :unauthorized
+        response :internal_server_error
+        response :ok
+      end
+
       def show
         begin
           raise 'Unable to retrieve the specific class session, you do not have access to it' if unauthorized_access?
