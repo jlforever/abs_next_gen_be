@@ -24,6 +24,10 @@
       "description": "Family members management"
     },
     {
+      "path": "/api/v1/password_reset_requests.{format}",
+      "description": "Password reset request management"
+    },
+    {
       "path": "/api/v1/password_resets.{format}",
       "description": "Password resetting management"
     },

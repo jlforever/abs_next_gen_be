@@ -3,7 +3,11 @@ module Concerns
     def obtain_session_and_recognize_errors!
       if user_permitted_for_session_access?
         payload = { user_id: user.id }
-        session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
+        session = JWTSessions::Session.new(
+          payload: payload,
+          refresh_by_access_allowed: true,
+          namespace: "user_id_#{user.id}"
+        )
         render json: session.login.slice(:access, :access_expires_at), status: :created
       else
         yield
