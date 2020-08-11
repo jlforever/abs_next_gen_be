@@ -43,6 +43,7 @@ module Api
             user.save!
             user.clear_password_reset_token!
           end
+          JWTSessions::Session.new(namespace: "user_id_#{user.id}").flush_namespaced
 
           head :ok
         rescue => exception

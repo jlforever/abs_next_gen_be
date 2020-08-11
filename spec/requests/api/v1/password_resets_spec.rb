@@ -41,11 +41,15 @@ describe Api::V1::PasswordResetsController, type: :request do
         to eq 'Password and password confirmation are not matching, please try again'
     end
 
-    it 'successfully updates the user password and clears the reset token' do
+    it 'successfully updates the user password and clears the reset token and flushes the previus user session' do
+      identified_session = double('session', flush_namespaced: nil)
+      allow(JWTSessions::Session).to receive(:new).and_return(identified_session)
       put "/api/v1/password_resets/#{user.password_reset_token}", params: { password_reset: { password: 'abcde67890!', password_confirmation: 'abcde67890!' } }
       expect(response.status).to eq 200
       reloaded_user = User.find(user.id)
 
+      expect(JWTSessions::Session).to have_received(:new).with({ namespace: "user_id_#{user.id}" })
+      expect(identified_session).to have_received(:flush_namespaced)
       result = (reloaded_user.password == 'abcde67890!')
       expect(result).to be_truthy
       expect(reloaded_user.password_reset_token).to be_nil

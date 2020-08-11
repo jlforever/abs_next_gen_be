@@ -1,9 +1,18 @@
 module Api
   module V1
     class PasswordResetRequestsController < ApplicationController
+      swagger_controller :password_resets, 'Password reset request management'
+
+      swagger_api :create do
+        summary 'Request to reset password for a user'
+        param :form, 'reset_request[user_email]', :string, :required, 'Requesting reset user\'s email'
+        response :internal_server_error
+        response :created
+      end
+
       def create
         begin
-          user = User.find_by(email: user_email)
+          user = User.find_by(email: user_email_param[:user_email])
           raise 'There is no matching user for the email you\'ve provided' if user.blank?
 
           user.generate_password_reset_token!
@@ -17,7 +26,7 @@ module Api
 
       private
 
-      def user_email
+      def user_email_param
         params.require(:reset_request).permit(:user_email) 
       end
     end
