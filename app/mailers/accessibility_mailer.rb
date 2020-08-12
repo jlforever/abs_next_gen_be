@@ -1,8 +1,8 @@
-class AccessbilityMailer < ApplicationMailer
+class AccessibilityMailer < ApplicationMailer
   def request_for_password_reset(user)
     @user = user
     @host = if Rails.env.development?
-      'http://localhost:9292'
+      'http://localhost:8080'
     elsif Rails.env.staging?
       'https://staging.alphabetaacademy.org'
     elsif Rails.env.production?

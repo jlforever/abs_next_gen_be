@@ -16,7 +16,7 @@ module Api
           raise 'There is no matching user for the email you\'ve provided' if user.blank?
 
           user.generate_password_reset_token!
-          AccessbilityMailer.request_for_password_reset(user).deliver_now
+          AccessibilityMailer.request_for_password_reset(user).deliver_now
 
           head :created
         rescue => exception
