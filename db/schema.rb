@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_231358) do
+ActiveRecord::Schema.define(version: 2020_08_13_054655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_08_02_231358) do
     t.float "one_sibling_same_class_discount_rate"
     t.float "two_siblings_same_class_discount_rate"
     t.text "virtual_klass_platform_link"
+    t.text "code"
+    t.index ["code"], name: "index_klasses_on_code"
     t.index ["effective_from", "effective_until"], name: "idx_klasses_on_effective_from_to_until"
     t.index ["faculty_id", "specialty_id", "effective_from"], name: "idx_klasses_on_uniq_faculty_specialty_start_time", unique: true
     t.index ["faculty_id"], name: "index_klasses_on_faculty_id"
@@ -110,6 +112,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_231358) do
     t.datetime "total_due_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "accept_release_form", default: false, null: false
     t.index ["klass_id", "primary_family_member_id"], name: "idx_registrations_on_uniq_klass_primary_family_member", unique: true
     t.index ["klass_id"], name: "index_registrations_on_klass_id"
     t.index ["primary_family_member_id"], name: "index_registrations_on_primary_family_member_id"

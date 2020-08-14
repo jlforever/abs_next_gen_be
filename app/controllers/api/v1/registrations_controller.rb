@@ -13,6 +13,7 @@ module Api
         param :form, 'registration[primary_family_member_id]', :string, :required, 'First registering family member id'
         param :form, 'registration[:secondary_family_member_id]', :string, :optional, 'Second registering family member id'
         param :form, 'registration[:tertiary_family_member_id]', :string, :optional, 'Third registering family member id'
+        param :form, 'registration[accept_release_form]', :boolean, :optional, 'Whether the registering parent accepts the video/audio release form'
         response :unauthorized
         response :internal_server_error
         response :created
@@ -25,6 +26,7 @@ module Api
           registration = RegistrationCreator.create!(
             current_user,
             registration_create_params[:course_id],
+            registration_create_params[:accept_release_form] || false,
             family_member1,
             family_member2,
             family_member3
@@ -115,7 +117,8 @@ module Api
             :course_id,
             :primary_family_member_id,
             :secondary_family_member_id,
-            :tertiary_family_member_id
+            :tertiary_family_member_id,
+            :accept_release_form
           )
       end
     end

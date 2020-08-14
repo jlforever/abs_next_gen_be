@@ -40,6 +40,7 @@ class Registration < ApplicationRecord
     {
       id: id,
       course: klass.as_serialized_hash,
+      accept_release_form: accept_release_form,
       status: status,
       primary_family_member_id: primary_family_member_id,
       secondary_family_member_id: secondary_family_member_id,

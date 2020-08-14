@@ -1,13 +1,14 @@
 class RegistrationCreator
   class CreationError < StandardError; end
 
-  def self.create!(parent_user, course_id, family_member1, family_member2 = nil, family_member3 = nil)
-    new(parent_user, course_id, family_member1, family_member2, family_member3).create!
+  def self.create!(parent_user, course_id, accept_release_form, family_member1, family_member2 = nil, family_member3 = nil)
+    new(parent_user, course_id, accept_release_form, family_member1, family_member2, family_member3).create!
   end
 
-  def initialize(parent_user, course_id, family_member1, family_member2 = nil, family_member3 = nil)
+  def initialize(parent_user, course_id, accept_release_form, family_member1, family_member2 = nil, family_member3 = nil)
     @course_id = course_id
     @parent_user = parent_user
+    @accept_release_form = accept_release_form
     @family_member1 = family_member1
     @family_member2 = family_member2
     @family_member3 = family_member3
@@ -35,7 +36,7 @@ class RegistrationCreator
 
   private
 
-  attr_reader :parent_user, :course_id, :family_member1, :family_member2, :family_member3
+  attr_reader :parent_user, :course_id, :accept_release_form, :family_member1, :family_member2, :family_member3
 
   def family_member1_exists?
     family_member1.present?
@@ -62,6 +63,7 @@ class RegistrationCreator
   def registration_create_params
     {
       klass_id: course.id,
+      accept_release_form: accept_release_form,
       primary_family_member_id: family_member1.id,
       secondary_family_member_id: family_member2&.id,
       tertiary_family_member_id: family_member3&.id,
