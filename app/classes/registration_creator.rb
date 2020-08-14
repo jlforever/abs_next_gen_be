@@ -81,28 +81,24 @@ class RegistrationCreator
     course.per_session_student_cost 
   end
 
-  def number_of_weeks
-    course.number_of_weeks 
-  end
-
-  def sessions_per_week
-    course.occurs_on_for_a_given_week.split(',').map(&:strip).size
+  def outstanding_sessions_size
+    course.remaining_session_dates_from_reference_date(Time.zone.now).size
   end
 
   def member1_fee
-    per_student_cost * sessions_per_week * number_of_weeks 
+    @member1_fee ||= per_student_cost * outstanding_sessions_size
   end
 
   def member2_fee
-    family_member2.present? ? (member1_fee * (course.one_sibling_same_class_discount_rate / 100.0))  : 0
+    @member2_fee ||= family_member2.present? ? (member1_fee * (course.one_sibling_same_class_discount_rate / 100.0))  : 0
   end
 
   def member3_fee
-    family_member3.present? ? (member1_fee * (course.two_siblings_same_class_discount_rate / 100.0)) : 0
+    @member3_fee ||= family_member3.present? ? (member1_fee * (course.two_siblings_same_class_discount_rate / 100.0)) : 0
   end
 
   def course
-    @course ||= Klass.effective.find(course_id) 
+    @course ||= Klass.reg_effective.find(course_id) 
   end
 
   def due_date

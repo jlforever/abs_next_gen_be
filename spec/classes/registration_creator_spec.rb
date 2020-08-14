@@ -7,8 +7,8 @@ describe RegistrationCreator do
   let!(:parent2) { create(:parent, user: user2) }
   let!(:faculty_user) { create(:user, password: 'aeiou12345!') }
   let!(:faculty) { create(:faculty, user: faculty_user) }
-  let!(:class1) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 3.days, effective_until: Time.zone.now + 7.days) }
-  let!(:class2) { create(:klass, faculty: faculty, effective_from: Time.zone.now + 3.days, effective_until: Time.zone.now + 10.days) }
+  let!(:class1) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 3.days, effective_until: Time.zone.now + 7.days, reg_effective_from: Time.zone.now - 3.days, reg_effective_until: Time.zone.now + 7.days) }
+  let!(:class2) { create(:klass, faculty: faculty, effective_from: Time.zone.now + 3.days, effective_until: Time.zone.now + 10.days, reg_effective_from: Time.zone.now + 3.days, reg_effective_until: Time.zone.now + 10.days) }
   let!(:student1) { create(:student, first_name: 'Helen', last_name: 'Downty') }
   let!(:student2) { create(:student, first_name: 'Sammy', last_name: 'Duncan') }
   let!(:student3) { create(:student, first_name: 'Marshall', last_name: 'Downty') }
@@ -56,7 +56,7 @@ describe RegistrationCreator do
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.accept_release_form).to be_truthy
       expect(registration.klass).to eq class1
-      expect(registration.total_due).to eq 40000
+      expect(registration.total_due).to eq 4000
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
       expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
@@ -81,7 +81,7 @@ describe RegistrationCreator do
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.secondary_family_member_id).to eq family_member3.id
       expect(registration.klass).to eq class1
-      expect(registration.total_due).to eq 60000
+      expect(registration.total_due).to eq 6000
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
       expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end

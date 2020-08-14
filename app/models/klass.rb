@@ -21,6 +21,13 @@ class Klass < ApplicationRecord
     )
   end
 
+  scope :reg_effective, -> do
+    where(
+      '? >= klasses.reg_effective_from AND ? <= klasses.reg_effective_until',
+      Time.zone.now, Time.zone.now
+    )
+  end
+
   def materials_holding_folder_name
     "#{specialty.subject}_#{specialty.category}_#{faculty.name}_#{effective_from.strftime('%m-%d-%Y')}"
   end
@@ -37,6 +44,12 @@ class Klass < ApplicationRecord
     end
 
     effective_from + offset_days.days
+  end
+
+  def remaining_session_dates_from_reference_date(referencce_date)
+    expected_session_dates.find_all do |date|
+      date >= referencce_date
+    end
   end
 
   def expected_session_dates
@@ -66,7 +79,9 @@ class Klass < ApplicationRecord
       per_session_minutes: per_session_minutes,
       phyiscal_location_address: phyiscal_location_address,
       effective_from: effective_from,
-      effective_until: effective_until
+      effective_until: effective_until,
+      reg_effective_from: reg_effective_from,
+      reg_effective_until: reg_effective_until
     }
   end
 end

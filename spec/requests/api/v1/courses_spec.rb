@@ -8,9 +8,9 @@ describe Api::V1::CoursesController, type: :request do
   let!(:parent) { create(:parent, user: user) }
   let!(:faculty_user) { create(:user, password: 'aeiou12345!') }
   let!(:faculty) { create(:faculty, user: faculty_user) }
-  let!(:class1) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 3.days, effective_until: Time.zone.now + 7.days) }
-  let!(:class2) { create(:klass, faculty: faculty, effective_from: Time.zone.now + 1.day, effective_until: Time.zone.now + 10.days) }
-  let!(:class3) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 10.days, effective_until: Time.zone.now + 20.days) }
+  let!(:class1) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 3.days, effective_until: Time.zone.now + 7.days, reg_effective_from: Time.zone.now - 3.days, reg_effective_until: Time.zone.now + 7.days) }
+  let!(:class2) { create(:klass, faculty: faculty, effective_from: Time.zone.now + 1.day, effective_until: Time.zone.now + 10.days, reg_effective_from: Time.zone.now + 1.day, reg_effective_until: Time.zone.now + 10.days) }
+  let!(:class3) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 10.days, effective_until: Time.zone.now + 20.days, reg_effective_from: Time.zone.now - 10.days, reg_effective_until: Time.zone.now + 20.days) }
 
   describe '.index' do
     context 'when searching without any user' do
