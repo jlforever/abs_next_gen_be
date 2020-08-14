@@ -50,6 +50,7 @@ class Klass < ApplicationRecord
   def as_serialized_hash
     {
       id: id,
+      code: code,
       specialty: {
         subject: specialty.subject,
         category: specialty.category,

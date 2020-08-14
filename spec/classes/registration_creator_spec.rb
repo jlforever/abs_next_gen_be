@@ -26,7 +26,7 @@ describe RegistrationCreator do
     context 'when no first family members is missing' do
       it 'raises an error indicating no primary family member' do
         expect do
-          described_class.create!(user, class1.id, nil, nil, nil)
+          described_class.create!(user, class1.id, false, nil, nil, nil)
         end.to raise_error(described_class::CreationError, /You cannot register without a family member/)
       end
     end
@@ -34,7 +34,7 @@ describe RegistrationCreator do
     context 'when family members do not belong to the same family' do
       it 'raises an error indicating family member do not belong together' do
         expect do
-          described_class.create!(user, class1.id, family_member1, family_member2, nil)
+          described_class.create!(user, class1.id, false, family_member1, family_member2, nil)
         end.to raise_error(described_class::CreationError, /Not all of the specified family members are from the same family/)
       end
     end
@@ -42,18 +42,19 @@ describe RegistrationCreator do
     context 'when attempt to registered class is not effective' do
       it 'raises a class not found error' do
         expect do
-          described_class.create!(user, class2.id, family_member1, family_member2, nil)
+          described_class.create!(user, class2.id, false, family_member1, family_member2, nil)
         end.to raise_error
       end
     end
 
     it 'registers a course for a given family member' do
       expect do
-        described_class.create!(user, class1.id, family_member1)
+        described_class.create!(user, class1.id, true, family_member1)
       end.to change { Registration.count }.by(1)
 
       registration = Registration.last
       expect(registration.primary_family_member).to eq family_member1
+      expect(registration.accept_release_form).to be_truthy
       expect(registration.klass).to eq class1
       expect(registration.total_due).to eq 40000
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
@@ -61,21 +62,22 @@ describe RegistrationCreator do
     end
 
     it 'blocks same family member registering the same course for more than once' do
-      described_class.create!(user, class1.id, family_member1)
+      described_class.create!(user, class1.id, false, family_member1)
       registration = Registration.last
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
       expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
       expect do
-        described_class.create!(user, class1.id, family_member1)
+        described_class.create!(user, class1.id, false, family_member1)
       end.to raise_error(described_class::CreationError, /same class more than once/)
     end
 
     it 'registers a course for a set of family members' do
       expect do
-        described_class.create!(user, class1.id, family_member1, family_member3)
+        described_class.create!(user, class1.id, false, family_member1, family_member3)
       end.to change { Registration.count }.by(1)
     
       registration = Registration.last
+      expect(registration.accept_release_form).to be_falsey
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.secondary_family_member_id).to eq family_member3.id
       expect(registration.klass).to eq class1

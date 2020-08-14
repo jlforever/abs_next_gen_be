@@ -13,7 +13,7 @@ class RegistrationMailer < ApplicationMailer
     to_address = parent_user.email
 
     @parent_first_name = parent_user.first_name
-    @fee = registration.total_due
+    @fee = registration.total_due / 100.0
     @total_due_by = registration.total_due_by
 
     mail(

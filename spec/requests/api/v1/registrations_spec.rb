@@ -22,6 +22,7 @@ describe Api::V1::RegistrationsController, type: :request do
       user_email: user.email,
       registration: {
         course_id: class1.id,
+        accept_release_form: true,
         secondary_family_member_id: family_member1
       }
     }
@@ -133,6 +134,7 @@ describe Api::V1::RegistrationsController, type: :request do
       expect(body[:registration][:primary_family_member_id]).to eq family_member1.id
       expect(body[:registration][:secondary_family_member_id]).to eq family_member3.id
       expect(body[:registration][:total_due]).to eq 60000
+      expect(body[:registration][:accept_release_form]).to be_truthy
       registration = Registration.last
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
       expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
