@@ -4,7 +4,7 @@ class PaidClassSessionsCreateJob < ApplicationJob
   def perform(registration)
     return unless registration.paid?
 
-    registration.klass.expected_session_dates.each do |specific_date|
+    registration.klass.remaining_session_dates_from_reference_date(registration.created_at).each do |specific_date|
       registration.class_sessions.create!(
         status: 'upcoming',
         effective_for: specific_date

@@ -1,14 +1,17 @@
 class CoursesQueryer
-  def self.find_courses(user: user)
-    new(user: user).find_courses
+  def self.find_courses(user:, search_context: 'registration')
+    new(user: user, search_context: search_context).find_courses
   end
 
-  def initialize(user: user)
+  def initialize(user:, search_context:)
     @user = user
+    @search_context = search_context
   end
 
   def find_courses
-    classes = Klass.effective
+    classes = if search_context == 'registration'
+      Klass.reg_effective
+    end
 
     if parent.present?
       classes = classes.find_all { |course| !parent_user_registered_courses.include?(course) }
@@ -19,7 +22,7 @@ class CoursesQueryer
 
   private
 
-  attr_reader :user
+  attr_reader :user, :search_context
 
   #def family_members
   #  user&.parent&.family_members 
