@@ -137,6 +137,13 @@
               "type": "string",
               "description": "Third registering family member id",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "registration[accept_release_form]",
+              "type": "boolean",
+              "description": "Whether the registering parent accepts the video/audio release form",
+              "required": false
             }
           ],
           "responseMessages": [
