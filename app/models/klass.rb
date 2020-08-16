@@ -74,6 +74,7 @@ class Klass < ApplicationRecord
         bio: faculty.bio
       },
       taught_via: taught_via,
+      per_session_student_cost: per_session_student_cost,
       occurs_on_for_a_given_week: occurs_on_for_a_given_week,
       individual_session_starts_at: individual_session_starts_at,
       per_session_minutes: per_session_minutes,
