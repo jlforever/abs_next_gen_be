@@ -14,7 +14,7 @@ class FamilyMemberCreator
     begin
       raise 'Unable to create a family member without a parent' unless parent.present?
       raise "The specified student with name: #{student_params[:first_name]} #{student_params[:last_name]} has already been added" if parent_associated_with_this_student?
-      raise 'The student has to be between age 2 and 7' if student_age < 2 || student_age > 7
+      raise 'The student has to be between age 2 and 7' if student_age < 2 || student_age > 10
 
       ActiveRecord::Base.transaction do
         student = create_student!
