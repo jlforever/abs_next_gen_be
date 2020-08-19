@@ -22,7 +22,7 @@ module CoursesSeeders
       1 => ['Chinese', '基础汉语1班（简体字)', '听说读写'],
       2 => ['Chinese', '基础汉语2班（简体字)', '听说读写'],
       3 => ['Chinese', '基础汉语3班（简体字)', '听说读写'],
-      4 => ['Chinese', '基础汉语4班（简体字)', '听说读写']
+      4 => ['Chinese', '基础汉语4班（简体字)', '听说读写'],
       5 => ['Chinese', '跟着小栗子学中文1班', '听说读写'],
       6 => ['Chinese', '基础汉语4班（繁体字)', '听说读写'],
       7 => ['Chinese', 'Chinese for English speaking students', 'Speaking, Listening, Writing'],
@@ -35,7 +35,7 @@ module CoursesSeeders
       'Chinese - 基础汉语1班（简体字) - 宝宝老师' => ['CHN-100', 1500, 6000, 'Zoom', 9, 'Mon, Thu', '22:00', '45'],
       'Chinese - 基础汉语2班（简体字) - 宝宝老师' => ['CHN-200', 1500, 6000, 'Zoom', 9, 'Tue, Fri', '22:00', '45'],
       'Chinese - 基础汉语3班（简体字) - 宝宝老师' => ['CHN-300', 1500, 6000, 'Zoom', 9, 'Tue, Fri', '23:00', '45'],
-      'Chinese - 基础汉语3班（简体字) - 宝宝老师' => ['CHN-700', 1500, 6000, 'Zoom', 9, 'Tue, Sat', '23:00', '45'],
+      'Chinese - 基础汉语4班（简体字) - 宝宝老师' => ['CHN-700', 1500, 6000, 'Zoom', 9, 'Tue, Sat', '23:00', '45'],
       'Chinese - 跟着小栗子学中文1班 - 优优老师' => ['CHN-400', 2000, 6000, 'Zoom', 9, 'Mon', '22:30', '60'],
       'Chinese - 基础汉语4班（繁体字) - Angel老师' => ['CHN-500', 1500, 4000, 'Zoom', 9, 'Tue, Fri', '22:30', '45'],
       'Chinese - Chinese for English speaking students - Miss Tiara' => ['CHN-600', 2500, 6000, 'Zoom', 18, 'Tue, Thur', '21:00', '60'],
