@@ -10,7 +10,7 @@ class CoursesQueryer
 
   def find_courses
     classes = if search_context == 'registration'
-      Klass.reg_effective
+      Klass.reg_effective.creation_ordered
     end
 
     if parent.present?
@@ -23,10 +23,6 @@ class CoursesQueryer
   private
 
   attr_reader :user, :search_context
-
-  #def family_members
-  #  user&.parent&.family_members 
-  #end
 
   def parent
     @parent_user ||= user&.parent
