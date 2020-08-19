@@ -21,6 +21,8 @@ class Klass < ApplicationRecord
     )
   end
 
+  scope :creation_ordered { order(created_at: :asc) }
+
   scope :reg_effective, -> do
     where(
       '? >= klasses.reg_effective_from AND ? <= klasses.reg_effective_until',
