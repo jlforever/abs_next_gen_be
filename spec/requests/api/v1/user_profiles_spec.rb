@@ -25,7 +25,7 @@ describe Api::V1::UserProfilesController, type: :request do
 
   before do
     establish_valid_token!(user)
-    UserProfileUpdater.update!(user: user, profile_params: profile_populate_data)
+    ParentUserProfileUpdater.update!(user: user, profile_params: profile_populate_data)
   end
 
   it 'encounters forbidden access error' do

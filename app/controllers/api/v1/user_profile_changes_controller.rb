@@ -7,18 +7,21 @@ module Api
       swagger_api :create do
         summary 'Creating (updating) user profiles'
         param :header, 'Authorization', :string, :required, 'Expired Acccess Token'
-        param :form, 'profile[first_name]', :string, :required, 'Email Address'
-        param :form, 'profile[last_name]', :string, :required, 'Password'
-        param :form, 'profile[user_name]', :string, :required, 'Email Address'
-        param :form, 'profile[phone_number]', :string, :required, 'Password'
-        param :form, 'profile[emergency_contact]', :string, :required, 'Email Address'
-        param :form, 'profile[emergency_contact_phone_number]', :string, :required, 'Password'
-        param :form, 'profile[timezone]', :string, :required, 'Email Address'
-        param :form, 'profile[address1]', :string, :required, 'Password'
-        param :form, 'profile[address2]', :string, :required, 'Email Address'
-        param :form, 'profile[city]', :string, :required, 'Password'
-        param :form, 'profile[state]', :string, :required, 'Email Address'
-        param :form, 'profile[zip]', :string, :required, 'Password'
+        param :form, 'perspective', :string, :required, 'User profile perspective (parent|faculty)'
+        param :form, 'profile[first_name]', :string, :required, 'User first name'
+        param :form, 'profile[last_name]', :string, :required, 'User last name'
+        param :form, 'profile[user_name]', :string, :required, 'User screen user name'
+        param :form, 'profile[phone_number]', :string, :required, 'User phone number'
+        param :form, 'profile[emergency_contact]', :string, :optional, 'User emergency contact'
+        param :form, 'profile[emergency_contact_phone_number]', :string, :optional, 'User emergency contact phone number'
+        param :form, 'profile[timezone]', :string, :optional, 'User timezone'
+        param :form, 'profile[address1]', :string, :optional, 'User address1'
+        param :form, 'profile[address2]', :string, :optional, 'User address2'
+        param :form, 'profile[city]', :string, :optional, 'User city'
+        param :form, 'profile[state]', :string, :optional, 'User state'
+        param :form, 'profile[zip]', :string, :optional, 'User zip'
+        param :form, 'profile[faculty_name]', :string, :optional, 'Faculty user name'
+        param :form, 'profile[faculty_bio]', :string, :optional, 'Faculty user bio'
         response :unauthorized
         response :internal_server_error
         response :created
@@ -26,18 +29,32 @@ module Api
 
       def create
         begin
-          UserProfileUpdater.update!(
+          updater_domain_klass.update!(
             user: current_user,
             profile_params: profile_update_params
           )
 
           render json: UserProfileSerializer.serialize(current_user.reload), status: :created
-        rescue UserProfileUpdater::MutationError => exception
+        rescue BaseUserProfileUpdater::MutationError => exception
           render json: { errors: { profile_mutation_error: exception.to_s } }, status: :internal_server_error
         end
       end
 
       private
+
+      def updater_domain_klass
+        @updater_domain_klass ||= begin
+          if profile_perspective == 'parent'
+            ParentUserProfileUpdater
+          elsif profile_perspective == 'faculty'
+            FacultyUserProfileUpdater
+          end
+        end
+      end
+
+      def profile_perspective
+        @profile_perspective ||= params.require(:perspective)
+      end
 
       def profile_update_params
         params.
@@ -54,7 +71,9 @@ module Api
             :address2,
             :city,
             :state,
-            :zip
+            :zip,
+            :faculty_name,
+            :faculty_bio
           )
       end
     end

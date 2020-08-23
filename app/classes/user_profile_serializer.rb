@@ -6,6 +6,7 @@ class UserProfileSerializer
   def initialize(user)
     @user = user
     @parent = user.parent
+    @faculty = user.faculty
   end
 
   def serialize
@@ -30,12 +31,22 @@ class UserProfileSerializer
           created_at: parent&.created_at,
           updated_at: parent&.updated_at
         },
-        faculty: {}
+        faculty: {
+          faculty_name: faculty&.name,
+          faculty_bio: faculty&.bio,
+          address1: faculty&.address1,
+          address2: faculty&.address2,
+          city: faculty&.city,
+          state: faculty&.state,
+          zip: faculty&.zip,
+          created_at: faculty&.created_at,
+          updated_at: faculty&.updated_at
+        }
       }
     }
   end
 
   private
 
-  attr_reader :user, :parent
+  attr_reader :user, :parent, :faculty
 end
