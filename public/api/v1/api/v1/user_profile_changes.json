@@ -19,87 +19,108 @@
             },
             {
               "paramType": "form",
+              "name": "perspective",
+              "type": "string",
+              "description": "User profile perspective (parent|faculty)",
+              "required": true
+            },
+            {
+              "paramType": "form",
               "name": "profile[first_name]",
               "type": "string",
-              "description": "Email Address",
+              "description": "User first name",
               "required": true
             },
             {
               "paramType": "form",
               "name": "profile[last_name]",
               "type": "string",
-              "description": "Password",
+              "description": "User last name",
               "required": true
             },
             {
               "paramType": "form",
               "name": "profile[user_name]",
               "type": "string",
-              "description": "Email Address",
+              "description": "User screen user name",
               "required": true
             },
             {
               "paramType": "form",
               "name": "profile[phone_number]",
               "type": "string",
-              "description": "Password",
+              "description": "User phone number",
               "required": true
             },
             {
               "paramType": "form",
               "name": "profile[emergency_contact]",
               "type": "string",
-              "description": "Email Address",
-              "required": true
+              "description": "User emergency contact",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[emergency_contact_phone_number]",
               "type": "string",
-              "description": "Password",
-              "required": true
+              "description": "User emergency contact phone number",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[timezone]",
               "type": "string",
-              "description": "Email Address",
-              "required": true
+              "description": "User timezone",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[address1]",
               "type": "string",
-              "description": "Password",
-              "required": true
+              "description": "User address1",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[address2]",
               "type": "string",
-              "description": "Email Address",
-              "required": true
+              "description": "User address2",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[city]",
               "type": "string",
-              "description": "Password",
-              "required": true
+              "description": "User city",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[state]",
               "type": "string",
-              "description": "Email Address",
-              "required": true
+              "description": "User state",
+              "required": false
             },
             {
               "paramType": "form",
               "name": "profile[zip]",
               "type": "string",
-              "description": "Password",
-              "required": true
+              "description": "User zip",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "profile[faculty_name]",
+              "type": "string",
+              "description": "Faculty user name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "profile[faculty_bio]",
+              "type": "string",
+              "description": "Faculty user bio",
+              "required": false
             }
           ],
           "responseMessages": [

@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include BCrypt
 
   has_one :parent
+  has_one :faculty
   has_many :students, through: :parent
   validates :email, :password_hash, presence: true
 
