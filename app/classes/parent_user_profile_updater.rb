@@ -14,6 +14,8 @@ class ParentUserProfileUpdater < BaseUserProfileUpdater
     parent.city = city
     parent.state = state
     parent.zip = zip
+    parent.emergency_contact = emergency_contact
+    parent.emergency_contact_phone_number = emergency_contact_phone_number
   end
 
   def context_specific_persist!
@@ -21,6 +23,9 @@ class ParentUserProfileUpdater < BaseUserProfileUpdater
   end
 
   def extra_params
-    []
+    [
+      :emergency_contact,
+      :emergency_contact_phone_number
+    ]
   end
 end

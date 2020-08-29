@@ -20,6 +20,11 @@ class UserProfileSerializer
         last_name: user.last_name,
         emergency_contact: user.emergency_contact,
         emergency_contact_phone_number: user.emergency_contact_phone_number,
+        address1: user.address1,
+        address2: user.address2,
+        city: user.city,
+        state: user.state,
+        zip: user.zip,
         timezone: user.timezone,
         slug: user.slug,
         parent: {
@@ -28,17 +33,19 @@ class UserProfileSerializer
           city: parent&.city,
           state: parent&.state,
           zip: parent&.zip,
+          emergency_contact: parent&.emergency_contact,
+          emergency_contact_phone_number: parent&.emergency_contact_phone_number,
           created_at: parent&.created_at,
           updated_at: parent&.updated_at
         },
         faculty: {
-          faculty_name: faculty&.name,
-          faculty_bio: faculty&.bio,
           address1: faculty&.address1,
           address2: faculty&.address2,
           city: faculty&.city,
           state: faculty&.state,
           zip: faculty&.zip,
+          faculty_name: faculty&.name,
+          faculty_bio: faculty&.bio,
           created_at: faculty&.created_at,
           updated_at: faculty&.updated_at
         }

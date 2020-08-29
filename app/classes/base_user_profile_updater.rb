@@ -6,8 +6,6 @@ class BaseUserProfileUpdater
     :last_name,
     :user_name,
     :phone_number,
-    :emergency_contact,
-    :emergency_contact_phone_number,
     :timezone
   ]
 
@@ -20,6 +18,8 @@ class BaseUserProfileUpdater
   ]
 
   ELIGIBLE_EXTRA_PARAMS = [
+    :emergency_contact,
+    :emergency_contact_phone_number,
     :faculty_name,
     :faculty_bio
   ]
@@ -97,8 +97,11 @@ class BaseUserProfileUpdater
     user.last_name = last_name
     user.user_name = user_name
     user.phone_number = phone_number
-    user.emergency_contact = emergency_contact
-    user.emergency_contact_phone_number = emergency_contact_phone_number
+    user.address1 = address1
+    user.address2 = address2
+    user.city = city
+    user.state = state
+    user.zip = zip
     user.timezone = timezone
   end
 
