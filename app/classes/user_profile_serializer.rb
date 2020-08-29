@@ -28,6 +28,7 @@ class UserProfileSerializer
         timezone: user.timezone,
         slug: user.slug,
         parent: {
+          id: parent&.id,
           address1: parent&.address1,
           address2: parent&.address2,
           city: parent&.city,
@@ -39,6 +40,7 @@ class UserProfileSerializer
           updated_at: parent&.updated_at
         },
         faculty: {
+          id: faculty&.id,
           address1: faculty&.address1,
           address2: faculty&.address2,
           city: faculty&.city,

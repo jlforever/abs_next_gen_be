@@ -19,3 +19,13 @@ task migrate_user_date_to_parents_and_vice_versa: :environment do
     end
   end
 end
+
+desc 'populate all classes\'s zoom links'
+task populate_all_classes_zoom_links: :environment do
+  ActiveRecord::Base.transaction do
+    Klass.find_each do |klass|
+      klass.virtual_klass_platform_link = 'https://zoom.us/j/3405855003'
+      klass.save!
+    end
+  end
+end
