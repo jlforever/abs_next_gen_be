@@ -48,12 +48,14 @@ module Api
             ParentUserProfileUpdater
           elsif profile_perspective == 'faculty'
             FacultyUserProfileUpdater
+          else
+            ParentUserProfileUpdater
           end
         end
       end
 
       def profile_perspective
-        @profile_perspective ||= params.require(:perspective)
+        @profile_perspective ||= params[:perspective]
       end
 
       def profile_update_params

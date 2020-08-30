@@ -84,7 +84,8 @@ class Klass < ApplicationRecord
       effective_from: effective_from,
       effective_until: effective_until,
       reg_effective_from: reg_effective_from,
-      reg_effective_until: reg_effective_until
+      reg_effective_until: reg_effective_until,
+      virtual_klass_platform_link: virtual_klass_platform_link
     }
   end
 end

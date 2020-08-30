@@ -44,8 +44,8 @@ describe Api::V1::UserProfileChangesController, type: :request do
         body = JSON.parse(response.body).with_indifferent_access
         expect(body[:profile][:first_name]).to eq 'Hank'
         expect(body[:profile][:user_name]).to eq 'Tempt'
-        expect(body[:profile][:faculty][:address1]).to eq '305 3rd St'
-        expect(body[:profile][:faculty][:zip]).to eq '09165'
+        expect(body[:profile][:address1]).to eq '305 3rd St'
+        expect(body[:profile][:zip]).to eq '09165'
         expect(body[:profile][:faculty][:faculty_name]).to eq 'Miss Garrett the Great'
         expect(body[:profile][:faculty][:faculty_bio]).to eq 'I am a great teacher, trust me'
       end
@@ -64,8 +64,10 @@ describe Api::V1::UserProfileChangesController, type: :request do
         body = JSON.parse(response.body).with_indifferent_access
         expect(body[:profile][:first_name]).to eq 'Hank'
         expect(body[:profile][:user_name]).to eq 'Tempt'
-        expect(body[:profile][:parent][:address1]).to eq '305 3rd St'
-        expect(body[:profile][:parent][:zip]).to eq '09165'
+        expect(body[:profile][:address1]).to eq '305 3rd St'
+        expect(body[:profile][:zip]).to eq '09165'
+        expect(body[:profile][:parent][:emergency_contact]).to eq 'Tania Sonny'
+        expect(body[:profile][:parent][:emergency_contact_phone_number]).to eq '616-233-0033'
       end
 
       it 'enables consecutive updates' do

@@ -6,7 +6,8 @@ module CoursesSeeders
       'Angel老师',
       'Miss Tiara',
       'Miss Gabby',
-      '馨予老师'
+      '馨予老师',
+      'Serena老师'
     ].freeze
 
     FACULTY_EMAIL_MAPPER = {
@@ -15,7 +16,8 @@ module CoursesSeeders
       'Angel老师' => 'Miss Angel',
       'Miss Tiara' => 'Miss Tiara',
       'Miss Gabby' => 'Miss Gabby',
-      '馨予老师' => 'Miss XinYu'
+      '馨予老师' => 'Miss XinYu',
+      'Serena老师' => 'Miss Serena'
     }.freeze
 
     SPECIALTIES = {
