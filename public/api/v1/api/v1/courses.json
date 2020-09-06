@@ -16,6 +16,13 @@
               "type": "string",
               "description": "Parent user email",
               "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "perspective",
+              "type": "string",
+              "description": "User profile perspective (parent|faculty)",
+              "required": true
             }
           ],
           "responseMessages": [

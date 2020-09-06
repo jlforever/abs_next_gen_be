@@ -30,6 +30,13 @@ class Klass < ApplicationRecord
     )
   end
 
+  scope :of_personnel_managable, ->(personnel) do
+    where(
+      'klasses.faculty_id = ?',
+      personnel.id
+    )
+  end
+
   def materials_holding_folder_name
     "#{specialty.subject}_#{specialty.category}_#{faculty.name}_#{effective_from.strftime('%m-%d-%Y')}"
   end
