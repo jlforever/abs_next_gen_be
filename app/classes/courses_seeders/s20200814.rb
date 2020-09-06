@@ -30,7 +30,8 @@ module CoursesSeeders
       7 => ['Chinese', 'Chinese for English speaking students', 'Speaking, Listening, Writing'],
       8 => ['Spanish', 'Spanish Intro level', 'Speaking, Listening'],
       9 => ['Spanish', 'Spanish Intermediate level', 'Speaking, Listening, Reading,Writing'],
-      10 => ['Dance', '儿童舞蹈基本功（民族舞+芭蕾舞)', '舞蹈基本功']
+      10 => ['Dance', '儿童舞蹈基本功（民族舞+芭蕾舞)', '舞蹈基本功'],
+      11 => ['Arts and Crafts', 'ABA Craft Together', 'Hands on arts and crafts']
     }.freeze
 
     KLASSES = {
@@ -43,10 +44,11 @@ module CoursesSeeders
       'Chinese - Chinese for English speaking students - Miss Tiara' => ['CHN-600', 2500, 6000, 'Zoom', 18, 'Tue, Thur', '21:00', '60'],
       'Spanish - Spanish Intro level - Miss Gabby' => ['SPN-100', 2000, 4000, 'Zoom', 9, 'Mon', '21:00', '45'],
       'Spanish - Spanish Intermediate level - Miss Gabby' => ['SPN-200', 2000, 4000, 'Zoom', 9, 'Wed, Fri', '21:00', '45'],
-      'Dance - 儿童舞蹈基本功（民族舞+芭蕾舞) - 馨予老师' => ['DNC-100', 2000, 4000, 'Zoom', 9, 'Sat', '13:30', '60']
+      'Dance - 儿童舞蹈基本功（民族舞+芭蕾舞) - 馨予老师' => ['DNC-100', 2000, 4000, 'Zoom', 9, 'Sat', '13:30', '60'],
+      'Arts and Crafts - ABA Craft Together - Serena老师' => ['AC-100', 0, 0, 'Zoom', 9, 'Sat', '18:00', '60']
     }.freeze
 
-    EFFECTIVE_FROM = '2020-08-31'
+    EFFECTIVE_FROM = '2020-08-29'
     EFFECTIVE_UNTIL = '2020-10-31'
 
     REG_EFFECTIVE_FROM = '2020-08-14'
