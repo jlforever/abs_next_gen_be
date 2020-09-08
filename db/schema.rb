@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_24_052802) do
+ActiveRecord::Schema.define(version: 2020_09_08_174356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 2020_08_24_052802) do
     t.datetime "effective_for", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "associate_teaching_session_id"
+    t.index ["associate_teaching_session_id"], name: "index_class_sessions_on_associate_teaching_session_id"
     t.index ["registration_id"], name: "index_class_sessions_on_registration_id"
   end
 
@@ -152,6 +154,15 @@ ActiveRecord::Schema.define(version: 2020_08_24_052802) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "teaching_sessions", force: :cascade do |t|
+    t.bigint "klass_id", null: false
+    t.datetime "effective_for", null: false
+    t.text "corresponding_class_session_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["klass_id"], name: "index_teaching_sessions_on_klass_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.text "email", null: false
     t.text "first_name"
@@ -179,6 +190,7 @@ ActiveRecord::Schema.define(version: 2020_08_24_052802) do
 
   add_foreign_key "class_session_materials", "class_sessions"
   add_foreign_key "class_sessions", "registrations"
+  add_foreign_key "class_sessions", "teaching_sessions", column: "associate_teaching_session_id"
   add_foreign_key "faculties", "users"
   add_foreign_key "family_members", "parents"
   add_foreign_key "family_members", "students"
@@ -186,4 +198,5 @@ ActiveRecord::Schema.define(version: 2020_08_24_052802) do
   add_foreign_key "klasses", "specialties"
   add_foreign_key "parents", "users"
   add_foreign_key "registrations", "klasses"
+  add_foreign_key "teaching_sessions", "klasses"
 end
