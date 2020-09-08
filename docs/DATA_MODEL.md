@@ -128,6 +128,7 @@ id: Bigint
 registration_id: Bigint
 status: Text
 effective_for: Timestamp
+associate_teaching_session_id: Bigint
 created_at: Timestamp
 updated_at: Timestamp
 ```
@@ -140,6 +141,17 @@ name: Text
 class_session_id: Bigint
 audience: Text
 mime_type: Text
+created_at: Timestamp
+updated_at: Timestamp
+```
+
+__Teaching Sessions__
+
+```
+id: Bigint
+klass_id: Bigint
+effective_for: Timestamp
+corresponding_class_session_title: Text
 created_at: Timestamp
 updated_at: Timestamp
 ```

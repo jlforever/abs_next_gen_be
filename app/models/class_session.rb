@@ -3,6 +3,7 @@ class ClassSession < ApplicationRecord
 
   belongs_to :registration
   has_many :materials, class_name: 'ClassSessionMaterial', foreign_key: 'class_session_id'
+  belongs_to :associate_teaching_session, class_name: 'TeachingSession', foreign_key: 'associate_teaching_session_id'
 
   validates :registration_id, :effective_for, :status, presence: true
   validates :status, inclusion: { in: VALID_STATUSES }

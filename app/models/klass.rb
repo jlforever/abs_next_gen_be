@@ -2,6 +2,8 @@ class Klass < ApplicationRecord
   belongs_to :specialty
   belongs_to :faculty
   has_many :registrations
+  has_many :class_sessions, through: :registrations
+  has_many :teaching_sessions
 
   validates :specialty_id,
     :faculty_id,

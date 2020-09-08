@@ -29,3 +29,21 @@ task populate_all_classes_zoom_links: :environment do
     end
   end
 end
+
+desc 'generate klasses\'s teaching sessions and link with class sessions'
+task generate_klass_teaching_sessions_and_link_with_class_sessions: :environment do
+  ActiveRecord::Base.transaction do
+    Klass.find_each do |klass|
+      klass.expected_session_dates.each do |date|
+        new_teaching_session = klass.teaching_sessions.create!(effective_for: date + 9.hours)
+
+        klass.class_sessions.each do |class_session|
+          if class_session.effective_for.to_date == new_teaching_session.effective_for.to_date
+            class_session.associate_teaching_session = new_teaching_session
+            class_session.save!
+          end
+        end
+      end
+    end
+  end
+end
