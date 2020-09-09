@@ -5,6 +5,42 @@
   "resourcePath": "courses",
   "apis": [
     {
+      "path": "/api/v1/courses/{id}/teaching_sessions.json",
+      "operations": [
+        {
+          "summary": "Retrieve course associated teaching session for eligible faculty users",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "id",
+              "type": "integer",
+              "description": "Course unique identifier",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Courses#teaching_sessions",
+          "method": "get"
+        }
+      ]
+    },
+    {
       "path": "/api/v1/courses.json",
       "operations": [
         {

@@ -29,7 +29,40 @@ module Api
         end
       end
 
+      swagger_api :teaching_sessions do
+        summary 'Retrieve course associated teaching session for eligible faculty users'
+        param :query, 'id', :integer, :required, 'Course unique identifier'
+        response :unauthorized
+        response :internal_server_error
+        response :ok
+      end
+
+      def teaching_sessions
+        authorize_access_request!
+
+        begin
+          raise 'Unable to access teaching session as a non faculty user' unless faculty.present?
+          raise 'You\'re unable to access teaching session for a course that you do not have access to' if course_faculty_mismatched?
+
+          render json: { teaching_sessions: course.teaching_sessions.map(&:as_serialized_hash) }, status: :ok
+        rescue => exception
+          render json: { errors: { teaching_sessions_retrieval_error: exception.to_s } }, status: :internal_server_error
+        end
+      end
+
       private
+
+      def faculty
+        @faculty ||= current_user.faculty
+      end
+
+      def course
+        @course ||= Klass.find(params[:id])
+      end
+
+      def course_faculty_mismatched?
+        course.faculty != faculty
+      end
 
       def accessor_querying_params
         params.permit(:user_email)
