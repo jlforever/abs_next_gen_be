@@ -16,6 +16,42 @@ describe Api::V1::CoursesController, type: :request do
   let!(:class3) { create(:klass, faculty: faculty, effective_from: Time.zone.now - 10.days, effective_until: Time.zone.now + 20.days, reg_effective_from: Time.zone.now - 10.days, reg_effective_until: Time.zone.now + 20.days) }
   let!(:class4) { create(:klass, faculty: faculty2, effective_from: Time.zone.now - 10.days, effective_until: Time.zone.now + 20.days, reg_effective_from: Time.zone.now - 10.days, reg_effective_until: Time.zone.now + 20.days) }
 
+  describe 'teaching_sessions' do
+    let!(:teaching_session1) { create(:teaching_session, klass: class4, effective_for: Time.zone.now - 8.days) }
+    let!(:teaching_session2) { create(:teaching_session, klass: class4, effective_for: Time.zone.now - 9.days) }
+
+    it 'properly retrieves the faculty accessible course\'s teaching sessions' do
+      establish_valid_token!(faculty_user2)
+
+      get "/api/v1/courses/#{class4.id}/teaching_sessions", headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+      expect(response.status).to eq 200
+      body = JSON.parse(response.body).with_indifferent_access
+      expect(body['teaching_sessions'].map { |ts| ts['id'] }).to match_array([teaching_session1.id, teaching_session2.id])
+    end
+
+    it 'raises exception when a non faculty user is attempting to access' do
+      establish_valid_token!(user)
+      get "/api/v1/courses/#{class4.id}/teaching_sessions", headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+
+      expect(response.status).to eq 500
+      body = JSON.parse(response.body).with_indifferent_access
+
+      expect(body['errors']['teaching_sessions_retrieval_error']).
+        to eq 'Unable to access teaching session as a non faculty user'
+    end
+
+    it 'raises exception when a mismatched faculty user is attempting to access an inaccessible course\'s teaching sessions' do
+      establish_valid_token!(faculty_user)
+      get "/api/v1/courses/#{class4.id}/teaching_sessions", headers: { JWTSessions.access_header => "Bearer #{@token.access}" }
+
+      expect(response.status).to eq 500
+      body = JSON.parse(response.body).with_indifferent_access
+
+      expect(body['errors']['teaching_sessions_retrieval_error']).
+        to eq 'You\'re unable to access teaching session for a course that you do not have access to'
+    end
+  end
+
   describe '.index' do
     context 'when searching without any user' do
       it 'returns all effective courses' do
