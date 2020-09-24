@@ -1,5 +1,6 @@
 class ClassSessionMaterial < ApplicationRecord
   belongs_to :class_session
+  belongs_to :teaching_session_student_upload
 
   validates :name,
     :class_session_id,
