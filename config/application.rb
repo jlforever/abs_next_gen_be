@@ -34,5 +34,8 @@ module AbsNextGenBe
 
     # Setting ActiveJob to use resque
     config.active_job.queue_adapter = :resque
+
+    # set belongs_to to be not default to true
+    Rails.application.config.active_record.belongs_to_required_by_default = false
   end
 end
