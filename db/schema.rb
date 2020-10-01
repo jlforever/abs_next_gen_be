@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_174356) do
+ActiveRecord::Schema.define(version: 2020_09_20_190956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,9 @@ ActiveRecord::Schema.define(version: 2020_09_08_174356) do
     t.text "mime_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "teaching_session_student_upload_id"
     t.index ["class_session_id"], name: "index_class_session_materials_on_class_session_id"
+    t.index ["teaching_session_student_upload_id"], name: "idx_class_sessions_on_teaching_session_student_upload"
   end
 
   create_table "class_sessions", force: :cascade do |t|
@@ -154,6 +156,15 @@ ActiveRecord::Schema.define(version: 2020_09_08_174356) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "teaching_session_student_uploads", force: :cascade do |t|
+    t.bigint "teaching_session_id", null: false
+    t.text "name", null: false
+    t.text "mime_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teaching_session_id"], name: "idx_ts_student_uploads_on_ts"
+  end
+
   create_table "teaching_sessions", force: :cascade do |t|
     t.bigint "klass_id", null: false
     t.datetime "effective_for", null: false
@@ -198,5 +209,6 @@ ActiveRecord::Schema.define(version: 2020_09_08_174356) do
   add_foreign_key "klasses", "specialties"
   add_foreign_key "parents", "users"
   add_foreign_key "registrations", "klasses"
+  add_foreign_key "teaching_session_student_uploads", "teaching_sessions"
   add_foreign_key "teaching_sessions", "klasses"
 end

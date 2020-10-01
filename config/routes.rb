@@ -20,6 +20,11 @@ Rails.application.routes.draw do
         end
       end
       resources :sign_ups, only: [:create]
+      resources :teaching_sessions, only: [] do
+        member do
+          post 'student_materials'
+        end
+      end
       resources :user_profiles, only: [:index]
       resources :user_profile_changes, only: [:create]
     end

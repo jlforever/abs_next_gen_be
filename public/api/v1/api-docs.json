@@ -40,6 +40,10 @@
       "description": "Sign Ups Management"
     },
     {
+      "path": "/api/v1/teaching_sessions.{format}",
+      "description": "Student Session Materials Management"
+    },
+    {
       "path": "/api/v1/user_profiles.{format}",
       "description": "User Profile Retrieval Management"
     },
