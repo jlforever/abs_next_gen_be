@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         member do
           post 'student_materials'
         end
+        resources :student_materials, controller: 'teaching_session_student_uploads', only: [:destroy]
       end
       resources :user_profiles, only: [:index]
       resources :user_profile_changes, only: [:create]

@@ -44,6 +44,10 @@
       "description": "Student Session Materials Management"
     },
     {
+      "path": "/api/v1/teaching_session_student_uploads.{format}",
+      "description": "Teaching Session Student Uploads Management"
+    },
+    {
       "path": "/api/v1/user_profiles.{format}",
       "description": "User Profile Retrieval Management"
     },

@@ -84,6 +84,7 @@ class Klass < ApplicationRecord
         name: faculty.name,
         bio: faculty.bio
       },
+      number_of_weeks: number_of_weeks,
       taught_via: taught_via,
       per_session_student_cost: per_session_student_cost,
       occurs_on_for_a_given_week: occurs_on_for_a_given_week,
