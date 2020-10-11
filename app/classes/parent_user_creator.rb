@@ -23,6 +23,9 @@ class ParentUserCreator
           end
         end
       end
+    rescue PG::UniqueViolation => exception
+      dup_user_by_email_error_message = "User with specified email: #{email} already exists"
+      raise CreationError.new(dup_user_by_email_error_message)
     rescue => exception
       raise CreationError.new(exception.to_s)
     end
