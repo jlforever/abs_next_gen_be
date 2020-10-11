@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_190956) do
+ActiveRecord::Schema.define(version: 2020_10_10_170026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,21 @@ ActiveRecord::Schema.define(version: 2020_09_20_190956) do
     t.bigint "associate_teaching_session_id"
     t.index ["associate_teaching_session_id"], name: "index_class_sessions_on_associate_teaching_session_id"
     t.index ["registration_id"], name: "index_class_sessions_on_registration_id"
+  end
+
+  create_table "credit_cards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "card_holder_name", null: false
+    t.text "card_last_four", null: false
+    t.text "card_type", null: false
+    t.text "card_expire_month", null: false
+    t.text "card_expire_year", null: false
+    t.text "stripe_customer_token"
+    t.text "stripe_card_token"
+    t.text "postal_identification"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
   create_table "faculties", force: :cascade do |t|
@@ -70,6 +85,14 @@ ActiveRecord::Schema.define(version: 2020_09_20_190956) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "klass_vacay_dates", force: :cascade do |t|
+    t.bigint "klass_id", null: false
+    t.text "off_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["klass_id"], name: "index_klass_vacay_dates_on_klass_id"
   end
 
   create_table "klasses", force: :cascade do |t|
@@ -202,9 +225,11 @@ ActiveRecord::Schema.define(version: 2020_09_20_190956) do
   add_foreign_key "class_session_materials", "class_sessions"
   add_foreign_key "class_sessions", "registrations"
   add_foreign_key "class_sessions", "teaching_sessions", column: "associate_teaching_session_id"
+  add_foreign_key "credit_cards", "users"
   add_foreign_key "faculties", "users"
   add_foreign_key "family_members", "parents"
   add_foreign_key "family_members", "students"
+  add_foreign_key "klass_vacay_dates", "klasses"
   add_foreign_key "klasses", "faculties"
   add_foreign_key "klasses", "specialties"
   add_foreign_key "parents", "users"

@@ -12,7 +12,7 @@ module Api
 
       def create
         begin
-          user = User.find_by(email: user_email_param[:user_email])
+          user = User.where('email ilike ?', "%#{user_email_param[:user_email]}%").first
           raise 'There is no matching user for the email you\'ve provided' if user.blank?
 
           user.generate_password_reset_token!

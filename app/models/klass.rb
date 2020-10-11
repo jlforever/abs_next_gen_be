@@ -4,6 +4,7 @@ class Klass < ApplicationRecord
   has_many :registrations
   has_many :class_sessions, through: :registrations
   has_many :teaching_sessions
+  has_many :klass_vacay_dates
 
   validates :specialty_id,
     :faculty_id,
@@ -39,6 +40,10 @@ class Klass < ApplicationRecord
     )
   end
 
+  def vacay_date_strings
+    klass_vacay_dates.map(&:off_date)
+  end
+
   def materials_holding_folder_name
     "#{specialty.subject}_#{specialty.category}_#{faculty.name}_#{effective_from.strftime('%m-%d-%Y')}"
   end
@@ -49,9 +54,13 @@ class Klass < ApplicationRecord
 
   def first_session_date
     first_occur_wod = occur_on_week_days.first
+    second_occur_wod = occur_on_week_days.last
 
     offset_days = (0..7).to_a.detect do |day_increment|
-      (effective_from + day_increment.days).strftime('%a') == first_occur_wod
+      comparable_date = (effective_from + day_increment.days)
+
+      !vacay_date_strings.include?(comparable_date.strftime('%Y-%m-%d')) &&
+        (comparable_date.strftime('%a') == first_occur_wod || comparable_date.strftime('%a') == second_occur_wod)
     end
 
     effective_from + offset_days.days
@@ -67,7 +76,8 @@ class Klass < ApplicationRecord
     occur_ons = occur_on_week_days
 
     (first_session_date.to_date..effective_until.to_date).find_all do |specific_date|
-      occur_ons.include?(specific_date.strftime('%a'))
+      !vacay_date_strings.include?(specific_date.strftime('%Y-%m-%d')) &&
+        occur_ons.include?(specific_date.strftime('%a'))
     end
   end
 
