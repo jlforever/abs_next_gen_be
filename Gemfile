@@ -15,6 +15,7 @@ gem 'rails', '~> 5.2.0'
 gem 'redis', '~> 4.0'
 gem 'resque'
 gem 'rest-client'
+gem 'stripe'
 gem 'swagger-docs'
 
 group :development, :test do

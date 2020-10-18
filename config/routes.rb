@@ -5,12 +5,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :authentications, only: [:create]
       resources :authentication_renewals, only: [:create]
+      resources :class_sessions, only: [:show]
       resources :courses, only: [:index] do
         member do
           get 'teaching_sessions'
         end
       end
-      resources :class_sessions, only: [:show]
+      resources :credit_cards, only: [:create, :index]
       resources :family_members, only: [:create, :index, :destroy]
       resources :password_reset_requests, only: [:create]
       resources :password_resets, param: :reset_token, constraints: { reset_token: /[\-\d\w]+/ }, only: [:edit, :update]

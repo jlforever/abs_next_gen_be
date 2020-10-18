@@ -141,6 +141,7 @@ name: Text
 class_session_id: Bigint
 audience: Text
 mime_type: Text
+teaching_session_student_upload_id: Bigint
 created_at: Timestamp
 updated_at: Timestamp
 ```
@@ -152,6 +153,34 @@ id: Bigint
 klass_id: Bigint
 effective_for: Timestamp
 corresponding_class_session_title: Text
+created_at: Timestamp
+updated_at: Timestamp
+```
+
+__Teaching Session Student Uploads__
+
+```
+id: Bigint
+teaching_session_id: Bigint
+name: Text
+mime_type: Text
+created_at: Timestamp
+updated_at: Timestamp
+```
+
+__Credit Cards__
+
+```
+id: Bigint
+user_id: Bigint
+card_holder_name: Text
+card_last_four: Text
+card_type: Text
+card_expire_month: Text
+card_expire_year: Text
+stripe_customer_token: Text
+stripe_card_token: Text
+postal_identification: Text
 created_at: Timestamp
 updated_at: Timestamp
 ```

@@ -1,0 +1,113 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://api.somedomain.com",
+  "resourcePath": "credit_cards",
+  "apis": [
+    {
+      "path": "/api/v1/credit_cards.json",
+      "operations": [
+        {
+          "summary": "Returns user associated credit cards",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "string",
+              "description": "querying user's email",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Ok"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::CreditCards#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/credit_cards.json",
+      "operations": [
+        {
+          "summary": "Allow user to create a credit card",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "user_email",
+              "type": "string",
+              "description": "Creator's email address",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[card_holder_name]",
+              "type": "string",
+              "description": "Credit card's holder name",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[card_last_four]",
+              "type": "string",
+              "description": "Credit card last 4 digits",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[card_type]",
+              "type": "string",
+              "description": "Credit card type (ex: Visa)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[card_expire_month]",
+              "type": "string",
+              "description": "Credit card expiring month",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[card_expire_year]",
+              "type": "string",
+              "description": "Credit card expiring year",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[postal_identification]",
+              "type": "string",
+              "description": "Credit card postal code",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "credit_card[stripe_card_token]",
+              "type": "string",
+              "description": "Client side obtained stripe card token",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V1::CreditCards#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

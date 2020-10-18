@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_one :parent
   has_one :faculty
   has_many :students, through: :parent
+  has_many :credit_cards
   validates :email, :password_hash, presence: true
 
   friendly_id :slug_builder, use: [:slugged, :finders, :history], sequence_separator: '-'
