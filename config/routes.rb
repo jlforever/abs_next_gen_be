@@ -19,6 +19,9 @@ Rails.application.routes.draw do
         member do
           get 'class_sessions'
         end
+        collection do
+          post 'charge_amounts'
+        end
       end
       resources :sign_ups, only: [:create]
       resources :teaching_sessions, only: [] do

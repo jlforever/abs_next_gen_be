@@ -28,8 +28,28 @@ describe Api::V1::RegistrationsController, type: :request do
     }
   end
 
+  let!(:charge_amount_request_params) do
+    {
+      user_email: user.email,
+      charge_amount_request: {
+        course_id: class1.id,
+        primary_family_member_id: family_member1.id,
+        secondary_family_member_id: family_member2.id
+      }
+    }
+  end
+
   before do
     establish_valid_token!(user)
+  end
+
+  describe '#charge_amount' do
+    it 'properly calculates the course fee for a given set of registering family members' do
+      post '/api/v1/registrations/charge_amounts', params: charge_amount_request_params, headers: { 'Authorization' => "Bearer #{@token.access}" }
+      expect(response.status).to eq 200
+      body = JSON.parse(response.body).with_indifferent_access
+      expect(body[:amount]).to eq 6000
+    end
   end
 
   describe '#class_sessions' do

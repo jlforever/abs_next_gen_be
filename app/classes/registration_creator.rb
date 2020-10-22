@@ -67,34 +67,14 @@ class RegistrationCreator
       primary_family_member_id: family_member1.id,
       secondary_family_member_id: family_member2&.id,
       tertiary_family_member_id: family_member3&.id,
-      total_due: calculated_total_due,
+      total_due: calculated_total_due!,
       total_due_by: due_date,
       status: 'pending'
     } 
   end
 
-  def calculated_total_due
-    member1_fee + member2_fee + member3_fee
-  end
-
-  def per_student_cost
-    course.per_session_student_cost 
-  end
-
-  def outstanding_sessions_size
-    course.remaining_session_dates_from_reference_date(Time.zone.now).size
-  end
-
-  def member1_fee
-    @member1_fee ||= per_student_cost * outstanding_sessions_size
-  end
-
-  def member2_fee
-    @member2_fee ||= family_member2.present? ? (member1_fee * (course.one_sibling_same_class_discount_rate / 100.0))  : 0
-  end
-
-  def member3_fee
-    @member3_fee ||= family_member3.present? ? (member1_fee * (course.two_siblings_same_class_discount_rate / 100.0)) : 0
+  def calculated_total_due!
+    CourseFeeCalculator.calculate!(course, family_member1, family_member2, family_member3)
   end
 
   def course
