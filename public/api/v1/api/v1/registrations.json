@@ -48,6 +48,63 @@
       ]
     },
     {
+      "path": "/api/v1/registrations/charge_amounts.json",
+      "operations": [
+        {
+          "summary": "Calculate to be registered class's fees",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "charge_amount_request[:course_id]",
+              "type": "string",
+              "description": "Registering class's id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "charge_amount_request[primary_family_member_id]",
+              "type": "string",
+              "description": "First registering family member id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "charge_amount_request[:secondary_family_member_id]",
+              "type": "string",
+              "description": "Second registering family member id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "charge_amount_request[:tertiary_family_member_id]",
+              "type": "string",
+              "description": "Third registering family member id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": null,
+              "message": "Created"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#charge_amounts",
+          "method": "post"
+        }
+      ]
+    },
+    {
       "path": "/api/v1/registrations.json",
       "operations": [
         {

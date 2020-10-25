@@ -77,6 +77,34 @@ module Api
         end
       end
 
+      swagger_api :charge_amounts do
+        summary 'Calculate to be registered class\'s fees'
+        param :form, 'charge_amount_request[:course_id]', :string, :required, 'Registering class\'s id'
+        param :form, 'charge_amount_request[primary_family_member_id]', :string, :required, 'First registering family member id'
+        param :form, 'charge_amount_request[:secondary_family_member_id]', :string, :optional, 'Second registering family member id'
+        param :form, 'charge_amount_request[:tertiary_family_member_id]', :string, :optional, 'Third registering family member id'
+        response :unauthorized
+        response :internal_server_error
+        response :created
+      end
+
+      def charge_amounts
+        begin
+          raise "Unauthorized access: unable to request class's charge amount for incompatible user" if unauthorized_access?
+          course = Klass.find(charge_amount_request_params[:course_id])
+          amount = CourseFeeCalculator.calculate!(
+            course,
+            charge_amount_calculation_family_member1,
+            charge_amount_calculation_family_member2,
+            charge_amount_calculation_family_member3
+          )
+
+          render json: { amount: amount }, status: :ok
+        rescue => exception
+          render json: { charge_amount_calculation_error: exception.to_s }, status: :internal_server_error
+        end
+      end
+
       private
 
       def invalid_access_to_registration?
@@ -93,6 +121,21 @@ module Api
 
       def user_email
         params.require(:user_email)
+      end
+
+      def charge_amount_calculation_family_member1
+        (charge_amount_request_params[:primary_family_member_id] &&
+          FamilyMember.where(id: charge_amount_request_params[:primary_family_member_id]).first).presence
+      end
+
+      def charge_amount_calculation_family_member2
+        (charge_amount_request_params[:secondary_family_member_id] &&
+          FamilyMember.where(id: charge_amount_request_params[:secondary_family_member_id]).first).presence
+      end
+
+      def charge_amount_calculation_family_member3
+        (charge_amount_request_params[:tertiary_family_member_id] &&
+          FamilyMember.where(id: charge_amount_request_params[:tertiary_family_member_id]).first).presence
       end
 
       def family_member1
@@ -119,6 +162,17 @@ module Api
             :secondary_family_member_id,
             :tertiary_family_member_id,
             :accept_release_form
+          )
+      end
+
+      def charge_amount_request_params
+        params.
+          require(:charge_amount_request).
+          permit(
+            :course_id,
+            :primary_family_member_id,
+            :secondary_family_member_id,
+            :tertiary_family_member_id
           )
       end
     end
