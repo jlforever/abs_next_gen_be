@@ -50,7 +50,7 @@ module Api
         begin
           raise "Unauthorized access: unable to retrieve registrations with email: #{user_email}" if unauthorized_access?
 
-          registrations = Registration.not_failed.of_parent_user(current_user)
+          registrations = Registration.eligible.of_parent_user(current_user)
           render json: { registrations: registrations.map(&:as_serialized_hash) }, status: :ok
         rescue => exception
           render json: { errors: { registrations_retrieval_error: exception.to_s } }, status: :internal_server_error
@@ -69,6 +69,7 @@ module Api
       def class_sessions
         begin
           raise "Unauthorized access: unable to retrieve registered class's sessions" if invalid_access_to_registration?
+          raise 'Registration passed: unable to get class sessions for a passed registration' if registration.passed?
 
           class_sessions = registration.class_sessions
           render json: { class_sessions: class_sessions.map(&:as_serialized_hash) }, status: :ok

@@ -79,11 +79,21 @@ describe Api::V1::RegistrationsController, type: :request do
       expect(session1['individual_session_starts_at']).
         to eq registration_1.klass.individual_session_starts_at
     end
+
+    it 'raises registration passed and cannot get class sessions' do
+      registration_1.update(status: 'passed')
+      get "/api/v1/registrations/#{registration_1.id}/class_sessions", headers: { 'Authorization' => "Bearer #{@token.access}" }
+      expect(response.status).to eq 500
+      expect(JSON.parse(response.body).with_indifferent_access['errors']['registered_class_session_retrieval_error']).
+        to eq 'Registration passed: unable to get class sessions for a passed registration'
+    end
   end
 
   describe '#index' do
     let!(:registration_1) { create(:registration, klass: class1, primary_family_member: family_member1) }
     let!(:registration_2) { create(:registration, klass: class2, primary_family_member: family_member1, secondary_family_member_id: family_member3) }
+    let!(:registration_3) { create(:registration, klass: class1, primary_family_member: family_member3, status: 'failed') }
+    let!(:registration_4) { create(:registration, klass: class2, primary_family_member: family_member3, status: 'passed') }
 
     it 'retrieves the parent user\'s registration for the family members' do
       get '/api/v1/registrations', params: { user_email: user.email }, headers: { 'Authorization' => "Bearer #{@token.access}" }
