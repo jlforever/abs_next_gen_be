@@ -1,5 +1,5 @@
 class Registration < ApplicationRecord
-  VALID_STATUSES = ['pending', 'paid', 'overdue', 'failed']
+  VALID_STATUSES = ['pending', 'paid', 'overdue', 'failed', 'passed']
 
   belongs_to :klass
   belongs_to :primary_family_member, class_name: 'FamilyMember', foreign_key: 'primary_family_member_id'
@@ -13,6 +13,7 @@ class Registration < ApplicationRecord
   validates :status, inclusion: { in: VALID_STATUSES }
 
   scope :not_failed, -> { where('registrations.status <> ?', 'failed') }
+  scope :eligible, -> { where('registrations.status not in (?)', ['failed', 'passed']) }
   scope :of_parent_user, ->(parent_user) do
     joins('
       left outer join family_members as first_member on first_member.id = registrations.primary_family_member_id
@@ -34,6 +35,10 @@ class Registration < ApplicationRecord
     save!
 
     PaidClassSessionCreateJob.perform_later(self)
+  end
+
+  def passed?
+    status == 'passed' 
   end
 
   def as_serialized_hash
