@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_170026) do
+ActiveRecord::Schema.define(version: 2020_10_25_203645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,18 @@ ActiveRecord::Schema.define(version: 2020_10_10_170026) do
     t.index ["user_id"], name: "index_parents_on_user_id", unique: true
   end
 
+  create_table "registration_credit_card_charges", force: :cascade do |t|
+    t.bigint "registration_id", null: false
+    t.bigint "credit_card_id", null: false
+    t.text "charge_id", null: false
+    t.integer "amount", null: false
+    t.jsonb "charge_outcome", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["credit_card_id"], name: "idx_reg_credit_card_charge_on_credit_card"
+    t.index ["registration_id"], name: "idx_reg_credit_card_charge_on_reg"
+  end
+
   create_table "registrations", force: :cascade do |t|
     t.bigint "klass_id", null: false
     t.bigint "primary_family_member_id"
@@ -233,6 +245,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_170026) do
   add_foreign_key "klasses", "faculties"
   add_foreign_key "klasses", "specialties"
   add_foreign_key "parents", "users"
+  add_foreign_key "registration_credit_card_charges", "credit_cards"
+  add_foreign_key "registration_credit_card_charges", "registrations"
   add_foreign_key "registrations", "klasses"
   add_foreign_key "teaching_session_student_uploads", "teaching_sessions"
   add_foreign_key "teaching_sessions", "klasses"
