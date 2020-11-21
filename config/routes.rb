@@ -23,6 +23,7 @@ Rails.application.routes.draw do
           post 'charge_amounts'
         end
       end
+      resources :new_registrations, only: [:create]
       resources :sign_ups, only: [:create]
       resources :teaching_sessions, only: [] do
         member do

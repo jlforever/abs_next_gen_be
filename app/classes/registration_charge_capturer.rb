@@ -1,5 +1,5 @@
 class RegistrationChargeCapturer
-  class RegistrationChargeCaptureError < StandardError; end
+  class CaptureError < StandardError; end
 
   def self.capture!(registration, amount, credit_card)
     new(registration, amount, credit_card).capture!
@@ -18,6 +18,9 @@ class RegistrationChargeCapturer
       create_registration_credit_card_charge!.tap do |registration_credit_card_charge|
         stripe_charge_response = Stripe::Charge.create(charge_capture_params)
         registration_credit_card_charge.update!(charge_id: stripe_charge_response[:id], charge_outcome: stripe_charge_response[:outcome])
+
+        RegistrationMailer.registration_confirmation(registration).deliver_now
+        RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
       end
     end
   rescue Stripe::CardError,
@@ -36,9 +39,9 @@ class RegistrationChargeCapturer
       err[:type]
     end
 
-    raise RegistrationChargeCaptureError.new(error_message)
+    raise CaptureError.new(error_message)
   rescue => exception
-    raise RegistrationChargeCaptureError.new(exception.to_s)
+    raise CaptureError.new(exception.to_s)
   end
 
   private
@@ -88,7 +91,7 @@ class RegistrationChargeCapturer
     {
       amount: amount,
       currency: 'usd',
-      source: credit_card.stripe_card_token,
+      customer: credit_card.stripe_customer_token,
       description: charge_description
     }
   end
