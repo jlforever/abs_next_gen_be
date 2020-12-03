@@ -40,6 +40,10 @@
       "description": "Registrations Management"
     },
     {
+      "path": "/api/v1/new_registrations.{format}",
+      "description": "New Registrations Management"
+    },
+    {
       "path": "/api/v1/sign_ups.{format}",
       "description": "Sign Ups Management"
     },

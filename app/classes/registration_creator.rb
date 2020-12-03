@@ -1,17 +1,29 @@
 class RegistrationCreator
   class CreationError < StandardError; end
 
-  def self.create!(parent_user, course_id, accept_release_form, family_member1, family_member2 = nil, family_member3 = nil)
-    new(parent_user, course_id, accept_release_form, family_member1, family_member2, family_member3).create!
+  def self.create!(parent_user, course_id, accept_release_form,
+                   family_member1, family_member2 = nil,
+                   family_member3 = nil, charge_amount = nil)
+    new(parent_user,
+      course_id,
+      accept_release_form,
+      family_member1,
+      family_member2,
+      family_member3,
+      charge_amount
+    ).create!
   end
 
-  def initialize(parent_user, course_id, accept_release_form, family_member1, family_member2 = nil, family_member3 = nil)
+  def initialize(parent_user, course_id, accept_release_form,
+                 family_member1, family_member2 = nil,
+                 family_member3 = nil, charge_amount = nil)
     @course_id = course_id
     @parent_user = parent_user
     @accept_release_form = accept_release_form
     @family_member1 = family_member1
     @family_member2 = family_member2
     @family_member3 = family_member3
+    @charge_amount = charge_amount
   end
 
   def create!
@@ -20,10 +32,15 @@ class RegistrationCreator
       raise 'You are attempting to register with an invalid 2nd family member' unless family_member2_exists_and_valid?
       raise 'You are attempting to register with an invalid 3rd family member' unless family_member3_exists_and_valid?
       raise 'Not all of the specified family members are from the same family' unless family_members_together?
+      raise 'Specified total charge amount #{charge_amount} is incorrect' if charge_amount.present? && total_due_not_matched_with_expected_pay?
 
       registration = Registration.create!(registration_create_params)
-      RegistrationMailer.registration_confirmation(registration).deliver_now
-      RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
+      
+      unless charge_amount.present?
+        RegistrationMailer.registration_confirmation(registration).deliver_now
+        RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
+      end
+
       registration
     rescue => exception
       if exception.to_s.match(/uniq_klass_primary_family_membe/)
@@ -36,7 +53,17 @@ class RegistrationCreator
 
   private
 
-  attr_reader :parent_user, :course_id, :accept_release_form, :family_member1, :family_member2, :family_member3
+  attr_reader :parent_user,
+    :course_id,
+    :accept_release_form,
+    :family_member1,
+    :family_member2,
+    :family_member3,
+    :charge_amount
+
+  def total_due_not_matched_with_expected_pay?
+    charge_amount != calculated_total_due!
+  end
 
   def family_member1_exists?
     family_member1.present?
@@ -74,7 +101,7 @@ class RegistrationCreator
   end
 
   def calculated_total_due!
-    CourseFeeCalculator.calculate!(course, family_member1, family_member2, family_member3)
+    @_calculated_total_due ||= CourseFeeCalculator.calculate!(course, family_member1, family_member2, family_member3)
   end
 
   def course

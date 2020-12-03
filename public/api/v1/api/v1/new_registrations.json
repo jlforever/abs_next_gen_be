@@ -1,0 +1,101 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://api.somedomain.com",
+  "resourcePath": "new_registrations",
+  "apis": [
+    {
+      "path": "/api/v1/new_registrations.json",
+      "operations": [
+        {
+          "summary": "Creating/Registering a class for a set of family members",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "Authorization",
+              "type": "string",
+              "description": "User procured Acccess Token",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user_email",
+              "type": "string",
+              "description": "Parent user email",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:credit_card_id]",
+              "type": "integer",
+              "description": "Registrating user's credit card identifier",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:charge_amount]",
+              "type": "integer",
+              "description": "Registertion's charging amount",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:course_id]",
+              "type": "string",
+              "description": "Registering class's id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[primary_family_member_id]",
+              "type": "string",
+              "description": "First registering family member id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:secondary_family_member_id]",
+              "type": "string",
+              "description": "Second registering family member id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "registration[:tertiary_family_member_id]",
+              "type": "string",
+              "description": "Third registering family member id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "registration[accept_release_form]",
+              "type": "boolean",
+              "description": "Whether the registering parent accepts the video/audio release form",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": null,
+              "message": "Created"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Internal Server Error"
+            }
+          ],
+          "nickname": "Api::V1::NewRegistrations#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}
