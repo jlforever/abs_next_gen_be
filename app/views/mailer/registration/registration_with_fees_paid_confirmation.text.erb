@@ -1,0 +1,23 @@
+Dear <%= @parent_first_name %>,
+
+We are very pleased that you've registered with Alpha Beta Academy. Thank you for submitting a payment of: $<%= @fee.to_s %> with <%= @payment_detail %> for <%= @class_category %>.
+
+We have prepared the individual sessions for your paid class. In the mean time, please check the information provided below to get your child well prepared for the upcoming sessions.
+
+Quick tips:
+
+- All classes will be conducted online using Zoom.
+
+- All students are required to attend all regularly scheduled class sessions unless an absent request has been discussed with an ABA administrator.
+
+- All students are expected to arrive 5 minutes prior to the start time of each class session.
+
+- All students are expected to be remain seated throughout the session and have a clear table in the front with the study materials, pens, pencils and markers.
+
+Thanks,
+
+------------------------------
+ABA Admin
+www.alphabetaacademy.org
+<%= Time.now.strftime("%m-%d-%Y %H:%M:%S") %>
+------------------------------
