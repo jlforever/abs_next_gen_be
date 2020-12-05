@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p><%= "Dear " + @parent_first_name + "," %></p>
+    <p><%= "We are very pleased that you've registered with Alpha Beta Academy. Thank you for submitting a payment of: $" + @fee.to_s + " with " + @payment_detail + " for " + @class_category + "." %></p>
+    <p>We have prepared the individual sessions for your paid class. In the mean time, please check the information provided below to get your child well prepared for the upcoming sessions.</p>
+
+    <p>Quick tips:</p>
+    <ul>
+        <li>All classes will be conducted online using Zoom.</li>
+        <li>All students are required to attend all regularly scheduled class sessions unless an absent request has been discussed with an ABA administrator.</li>
+        <li>All students are expected to arrive 5 minutes prior to the start time of each class session.</li>
+        <li>All students are expected to be remain seated throughout the session and have a clear table in the front with the study materials, pens, pencils and markers</li>
+    </ul>
+
+    <p>Thanks,</p>
+    
+    <p>------------------------------</p>
+    <p>ABA Admin</p>
+    <p><a href="www.alphabetaacademy.org">www.alphabetaacademy.org</a></p>
+    <p><%= Time.now.strftime("%m-%d-%Y %H:%M:%S") %></p>
+    <p>------------------------------</p>
+  </body>
+</html>

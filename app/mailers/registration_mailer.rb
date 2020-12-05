@@ -24,6 +24,23 @@ class RegistrationMailer < ApplicationMailer
     )
   end
 
+  def registration_with_fees_paid_confirmation(registration)
+    parent_user = registration.primary_family_member.parent.user
+    to_address = parent_user.email
+
+    @parent_first_name = parent_user.first_name
+    @fee = registration.total_due / 100.0
+    @payment_detail = "your card ending in: #{registration.registration_credit_card_charge.credit_card.card_last_four}"
+    @class_category = registration.klass.specialty.category
+
+    mail(
+      to: parent_user.email,
+      from: 'ABA <admin@alphabetaschool.org>',
+      subject: 'Thank you for registering with ABA',
+      template_path: 'mailer/registration'
+    )
+  end
+
   def aba_admin_registration_notification(registration)
     @child_first_name = registration.primary_family_member.student.first_name
     @child_last_name = registration.primary_family_member.student.last_name
@@ -38,6 +55,7 @@ class RegistrationMailer < ApplicationMailer
     @parent_phone_number = registration.primary_family_member.parent.user.phone_number
     @parent_email = registration.primary_family_member.parent.user.email
     @registered_on = registration.created_at.strftime('%m-%d-%Y %H:%M:%S')
+    @registration_paid = registration.paid?
 
     @children_names = if @third_child_first_name.present?
       "#{@child_first_name} #{@child_last_name} and #{@second_child_first_name} #{@second_child_last_name} and #{@third_child_first_name} #{@third_child_last_name}"

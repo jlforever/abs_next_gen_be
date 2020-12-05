@@ -37,8 +37,9 @@ describe Api::V1::NewRegistrationsController, type: :request do
     before do
       allow(Stripe::Charge).to receive(:create).and_return({ id: 'this-is-a-successful-charge-id', outcome: {} })
       @fake_mailer = double('fake_mailer', deliver_now: nil)
-      allow(RegistrationMailer).to receive(:registration_confirmation).and_return(@fake_mailer)
+      allow(RegistrationMailer).to receive(:registration_with_fees_paid_confirmation).and_return(@fake_mailer)
       allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
+      allow(PaidClassSessionsCreateJob).to receive(:execute)
     end
 
     it 'registers the course for the family members' do
@@ -53,6 +54,11 @@ describe Api::V1::NewRegistrationsController, type: :request do
       expect(registration_credit_card_charge.charge_id).to eq 'this-is-a-successful-charge-id'
       expect(registration_credit_card_charge.registration).to eq registration
       expect(registration.total_due).to eq expected_amount
+
+      expect(registration.status).to eq 'paid'
+      expect(PaidClassSessionsCreateJob).to have_received(:execute).with(registration)
+      expect(RegistrationMailer).to have_received(:registration_with_fees_paid_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
   end
 end

@@ -32,6 +32,25 @@ describe RegistrationMailer do
     end
   end
 
+  describe '#registration_with_fees_paid_confirmation' do
+    let!(:credit_card) { create(:credit_card, user: user) }
+    let!(:credit_card_charge) { create(:registration_credit_card_charge, registration: registration1, credit_card: credit_card) }
+
+    it 'delivers registration with paid credit card fee payment confirmation email to the parent user' do
+      email = described_class.registration_with_fees_paid_confirmation(registration1)
+      
+      expect(email.to).to match([user.email])
+      expect(email.from).to match_array(['admin@alphabetaschool.org'])
+
+      expect(email.subject).to eq 'Thank you for registering with ABA'
+      
+      html_body = email.html_part.body
+      text_body = email.text_part.body
+      expect(html_body).to match(/Thank you for submitting a payment of/)
+      expect(text_body).to match(/Thank you for submitting a payment of/)
+    end
+  end
+
   describe '#aba_admin_registration_notification' do
     it 'delivers registration completion, with a single child notification to ABA admin' do
       email = described_class.aba_admin_registration_notification(registration1)
@@ -57,8 +76,11 @@ describe RegistrationMailer do
 
       html_body = email.html_part.body
       text_body = email.text_part.body
+
       expect(html_body).to match(/A new registration has just came through. Below are the detailed info./)
+      expect(html_body).to match(/Registration fees paid:/)
       expect(text_body).to match(/A new registration has just came through. Below are the detailed info./)
+      expect(text_body).to match(/Registration fees paid:/)
     end
   end
 end

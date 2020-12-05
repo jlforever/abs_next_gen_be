@@ -4,6 +4,7 @@ class Registration < ApplicationRecord
   belongs_to :klass
   belongs_to :primary_family_member, class_name: 'FamilyMember', foreign_key: 'primary_family_member_id'
   has_many :class_sessions
+  has_one :registration_credit_card_charge
 
   validates :primary_family_member_id,
     :klass_id,
@@ -31,10 +32,12 @@ class Registration < ApplicationRecord
   end
 
   def paid!
-    self.status = 'paid'
-    save!
+    ActiveRecord::Base.transaction do
+      self.status = 'paid'
+      save!
 
-    PaidClassSessionCreateJob.perform_later(self)
+      PaidClassSessionsCreateJob.execute(self)
+    end
   end
 
   def passed?
