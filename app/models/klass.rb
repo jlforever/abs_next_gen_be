@@ -40,6 +40,14 @@ class Klass < ApplicationRecord
     )
   end
 
+  def capacity_reached?
+    available_spots <= 0
+  end
+
+  def available_spots
+    capacity - registrations.eligible.count
+  end
+
   def vacay_date_strings
     klass_vacay_dates.map(&:off_date)
   end
@@ -105,7 +113,11 @@ class Klass < ApplicationRecord
       effective_until: effective_until,
       reg_effective_from: reg_effective_from,
       reg_effective_until: reg_effective_until,
-      virtual_klass_platform_link: virtual_klass_platform_link
+      virtual_klass_platform_link: virtual_klass_platform_link,
+      capacity: capacity,
+      available_spots: available_spots,
+      created_at: created_at,
+      updated_at: updated_at
     }
   end
 end

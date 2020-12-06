@@ -28,6 +28,7 @@ class RegistrationCreator
 
   def create!
     begin
+      raise 'The class you\'re attempting to register has reached its size limit' if reached_class_capacity?
       raise 'You cannot register without a family member' unless family_member1_exists?
       raise 'You are attempting to register with an invalid 2nd family member' unless family_member2_exists_and_valid?
       raise 'You are attempting to register with an invalid 3rd family member' unless family_member3_exists_and_valid?
@@ -60,6 +61,10 @@ class RegistrationCreator
     :family_member2,
     :family_member3,
     :charge_amount
+
+  def reached_class_capacity?
+    course.capacity_reached?
+  end
 
   def total_due_not_matched_with_expected_pay?
     charge_amount != calculated_total_due!

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_25_203645) do
+ActiveRecord::Schema.define(version: 2020_12_05_195438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_10_25_203645) do
     t.datetime "reg_effective_from"
     t.datetime "reg_effective_until"
     t.integer "student_capacity", default: 100, null: false
+    t.integer "capacity", default: 20, null: false
     t.index ["code"], name: "index_klasses_on_code"
     t.index ["effective_from", "effective_until"], name: "idx_klasses_on_effective_from_to_until"
     t.index ["faculty_id", "specialty_id", "effective_from"], name: "idx_klasses_on_uniq_faculty_specialty_start_time", unique: true
