@@ -14,6 +14,7 @@ FactoryBot.define do
     one_sibling_same_class_discount_rate { 50.0 }
     two_siblings_same_class_discount_rate { 50.0 }
     virtual_klass_platform_link { 'https://www.zoom.com/123456' }
+    capacity { 10 }
 
     trait :virtual_class do
       taught_via { 'Zoom' }

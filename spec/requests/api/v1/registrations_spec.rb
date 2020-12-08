@@ -118,7 +118,32 @@ describe Api::V1::RegistrationsController, type: :request do
       allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
     end
 
-    context 'when no first family members is missing' do
+    context 'when class capacity has been reached' do
+      let!(:students) do
+        (0..19).to_a.map do |num|
+          create(:student, first_name: "Sam_#{num}", last_name: 'Holch_#{num}')
+        end
+      end
+      let!(:family_members) do
+        students.map do |a_student|
+          create(:family_member, parent: parent, student: a_student)
+        end
+      end
+      let!(:paid_registrations) do
+        family_members.each do |a_family_member|
+          create(:registration, klass: class1, primary_family_member: a_family_member, status: 'paid')
+        end
+      end
+
+      it 'prevents the registration from completing' do
+        post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
+        expect(response.status).to eq 500
+        expect(JSON.parse(response.body).with_indifferent_access[:errors][:registration_creation_error]).
+          to match(/attempting to register has reached its size limit/)
+      end
+    end
+
+    context 'when first family members is missing' do
       it 'raises an error indicating no primary family member' do
         post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
         expect(response.status).to eq 500
