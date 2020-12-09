@@ -67,7 +67,7 @@ class RegistrationCreator
   end
 
   def total_due_not_matched_with_expected_pay?
-    charge_amount != calculated_total_due!
+    charge_amount != calculated_total_due_specification!.total
   end
 
   def family_member1_exists?
@@ -99,14 +99,23 @@ class RegistrationCreator
       primary_family_member_id: family_member1.id,
       secondary_family_member_id: family_member2&.id,
       tertiary_family_member_id: family_member3&.id,
-      total_due: calculated_total_due!,
+      total_due: calculated_total_due_specification!.total,
       total_due_by: due_date,
       status: 'pending'
-    } 
+    }
   end
 
-  def calculated_total_due!
-    @_calculated_total_due ||= CourseFeeCalculator.calculate!(course, family_member1, family_member2, family_member3)
+  def calculated_total_due_specification!
+    @calculated_total_due_specification ||= begin
+      OpenStruct.new(
+        CourseFeeCalculator.calculate!(
+          course,
+          family_member1,
+          family_member2,
+          family_member3
+        )
+      )
+    end
   end
 
   def course
