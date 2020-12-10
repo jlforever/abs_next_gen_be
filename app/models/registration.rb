@@ -40,6 +40,14 @@ class Registration < ApplicationRecord
     end
   end
 
+  def number_of_registrants
+    [
+      primary_family_member_id,
+      secondary_family_member_id,
+      tertiary_family_member_id
+    ].compact.count
+  end
+
   def passed?
     status == 'passed' 
   end
@@ -58,10 +66,5 @@ class Registration < ApplicationRecord
       created_at: created_at,
       updated_at: updated_at
     }
-  end
-
-  def spawned_session_dates
-
-    effective_from
   end
 end

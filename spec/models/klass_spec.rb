@@ -35,6 +35,28 @@ describe Klass do
     end
   end
 
+  describe '#available_spots' do
+    let!(:user) { create(:user, password: 'abcde12345!') }
+    let!(:parent) { create(:parent, user: user) }
+    let!(:students) do
+      (0..19).to_a.map do |num|
+        create(:student, first_name: "Sam_#{num}", last_name: 'Holch_#{num}')
+      end
+    end
+    let!(:family_members) do
+      students.map do |a_student|
+        create(:family_member, parent: parent, student: a_student)
+      end
+    end
+    let!(:reg1) { create(:registration, klass: class1, primary_family_member_id: family_members[0].id, secondary_family_member_id: family_members[1].id) }
+    let!(:reg2) { create(:registration, klass: class1, primary_family_member_id: family_members[2].id, secondary_family_member_id: family_members[3].id, status: 'paid') }
+    let!(:reg3) { create(:registration, klass: class1, primary_family_member_id: family_members[4].id, secondary_family_member_id: family_members[5].id, status: 'failed') }
+
+    it 'properly calculates the number of available spots' do
+      expect(class1.available_spots).to eq 6
+    end
+  end
+
   describe '#expected_session_dates' do
     let!(:vacay_date1) { create(:klass_vacay_date, klass: class1, off_date: '2020-06-01') }
     let!(:vacay_date2) { create(:klass_vacay_date, klass: class1, off_date: '2020-06-10') }

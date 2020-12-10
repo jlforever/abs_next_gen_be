@@ -129,17 +129,39 @@ describe Api::V1::RegistrationsController, type: :request do
           create(:family_member, parent: parent, student: a_student)
         end
       end
-      let!(:paid_registrations) do
-        family_members.each do |a_family_member|
-          create(:registration, klass: class1, primary_family_member: a_family_member, status: 'paid')
+
+      context 'with class tied with each of the registration having exactly registrant' do
+        let!(:eligible_registrations) do
+          family_members.map do |a_family_member|
+            create(:registration, klass: class1, primary_family_member: a_family_member, status: 'paid')
+          end
+        end
+
+        it 'prevents the subsquent registration attempt from completing' do
+          post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
+          expect(response.status).to eq 500
+          expect(JSON.parse(response.body).with_indifferent_access[:errors][:registration_creation_error]).
+            to match(/attempting to register has reached its size limit/)
         end
       end
 
-      it 'prevents the registration from completing' do
-        post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
-        expect(response.status).to eq 500
-        expect(JSON.parse(response.body).with_indifferent_access[:errors][:registration_creation_error]).
-          to match(/attempting to register has reached its size limit/)
+      context 'with class tied to registrations having more than one registrants' do
+        let!(:eligible_registrations) do
+          [
+            create(:registration, klass: class1, primary_family_member_id: family_members[0].id, secondary_family_member_id: family_members[1].id),
+            create(:registration, klass: class1, primary_family_member_id: family_members[2].id, secondary_family_member_id: family_members[3].id, tertiary_family_member_id: family_members[4].id),
+            create(:registration, klass: class1, primary_family_member_id: family_members[5].id, secondary_family_member_id: family_members[6].id),
+            create(:registration, klass: class1, primary_family_member_id: family_members[7].id, secondary_family_member_id: family_members[8].id),
+            create(:registration, klass: class1, primary_family_member_id: family_members[9].id)
+          ]
+        end
+
+        it 'prevents the subsequent registration attempt from completing' do
+          post '/api/v1/registrations', params: params, headers: { 'Authorization' => "Bearer #{@token.access}" }
+          expect(response.status).to eq 500
+          expect(JSON.parse(response.body).with_indifferent_access[:errors][:registration_creation_error]).
+            to match(/attempting to register has reached its size limit/)
+        end
       end
     end
 
