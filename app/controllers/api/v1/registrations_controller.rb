@@ -93,14 +93,14 @@ module Api
         begin
           raise "Unauthorized access: unable to request class's charge amount for incompatible user" if unauthorized_access?
           course = Klass.find(charge_amount_request_params[:course_id])
-          amount = CourseFeeCalculator.calculate!(
+          amount_specification = CourseFeeCalculator.calculate!(
             course,
             charge_amount_calculation_family_member1,
             charge_amount_calculation_family_member2,
             charge_amount_calculation_family_member3
           )
 
-          render json: { amount: amount }, status: :ok
+          render json: { amount_specification: amount_specification }, status: :ok
         rescue => exception
           render json: { charge_amount_calculation_error: exception.to_s }, status: :internal_server_error
         end

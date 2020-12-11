@@ -15,7 +15,11 @@ class CourseFeeCalculator
   def calculate!
     raise CalculationError.new('Unable to calculate course cost without a specified registering student') unless primary_family_member.present?
 
-    member1_fee + member2_fee + member3_fee
+    {
+      course_subtotal: course_subtotal,
+      handling_fee: handling_fee,
+      total: course_subtotal + handling_fee
+    }
   end
 
   private
@@ -24,6 +28,14 @@ class CourseFeeCalculator
     :primary_family_member,
     :secondary_family_member,
     :tertiary_family_member
+
+  def course_subtotal
+    @course_subtotal ||= member1_fee + member2_fee + member3_fee 
+  end
+
+  def handling_fee
+    handling_fee ||= course.handling_fee
+  end
 
   def per_student_cost
     course.per_session_student_cost 

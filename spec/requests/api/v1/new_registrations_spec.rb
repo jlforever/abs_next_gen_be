@@ -19,7 +19,7 @@ describe Api::V1::NewRegistrationsController, type: :request do
   end
 
   describe '#create' do
-    let!(:expected_amount) { CourseFeeCalculator.calculate!(class1, family_member1, family_member2) }
+    let!(:expected_amount) { OpenStruct.new(CourseFeeCalculator.calculate!(class1, family_member1, family_member2)).total }
     let(:create_params) do
       {
         user_email: user.email,

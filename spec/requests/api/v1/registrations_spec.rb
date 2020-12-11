@@ -48,7 +48,10 @@ describe Api::V1::RegistrationsController, type: :request do
       post '/api/v1/registrations/charge_amounts', params: charge_amount_request_params, headers: { 'Authorization' => "Bearer #{@token.access}" }
       expect(response.status).to eq 200
       body = JSON.parse(response.body).with_indifferent_access
-      expect(body[:amount]).to eq 6000
+
+      expect(body[:amount_specification][:course_subtotal]).to eq 6000
+      expect(body[:amount_specification][:handling_fee]).to eq 0
+      expect(body[:amount_specification][:total]).to eq 6000
     end
   end
 
