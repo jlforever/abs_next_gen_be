@@ -45,7 +45,7 @@ class Klass < ApplicationRecord
   end
 
   def available_spots
-    capacity - registrations.eligible.count
+    capacity - registrations.eligible.map(&:number_of_registrants).sum
   end
 
   def vacay_date_strings
