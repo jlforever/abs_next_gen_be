@@ -35,14 +35,7 @@ class RegistrationCreator
       raise 'Not all of the specified family members are from the same family' unless family_members_together?
       raise 'Specified total charge amount #{charge_amount} is incorrect' if charge_amount.present? && total_due_not_matched_with_expected_pay?
 
-      registration = Registration.create!(registration_create_params)
-      
-      unless charge_amount.present?
-        RegistrationMailer.registration_confirmation(registration).deliver_now
-        RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
-      end
-
-      registration
+      Registration.create!(registration_create_params)
     rescue => exception
       if exception.to_s.match(/uniq_klass_primary_family_membe/)
         raise CreationError.new('You cannot have your kid(s) register the same class more than once')

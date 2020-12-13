@@ -19,8 +19,6 @@ describe RegistrationCreator do
   describe '.create!' do
     before do
       @fake_mailer = double('fake_mailer', deliver_now: nil)
-      allow(RegistrationMailer).to receive(:registration_confirmation).and_return(@fake_mailer)
-      allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
     end
 
     context 'when no first family members is missing' do
@@ -57,15 +55,11 @@ describe RegistrationCreator do
       expect(registration.accept_release_form).to be_truthy
       expect(registration.klass).to eq class1
       expect(registration.total_due).to eq 4000
-      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
-      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
 
     it 'blocks same family member registering the same course for more than once' do
       described_class.create!(user, class1.id, false, family_member1)
       registration = Registration.last
-      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
-      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
       expect do
         described_class.create!(user, class1.id, false, family_member1)
       end.to raise_error(described_class::CreationError, /same class more than once/)
@@ -82,8 +76,6 @@ describe RegistrationCreator do
       expect(registration.secondary_family_member_id).to eq family_member3.id
       expect(registration.klass).to eq class1
       expect(registration.total_due).to eq 6000
-      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
-      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
   end
 end
