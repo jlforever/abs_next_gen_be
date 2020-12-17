@@ -33,7 +33,7 @@ module Api
               family_member1,
               family_member2,
               family_member3,
-              registration_create_params[:charge_amount].to_f
+              registration_create_params[:charge_amount]
             )
 
             unless pay_later?

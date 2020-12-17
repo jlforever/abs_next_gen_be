@@ -1,6 +1,8 @@
 class CourseFeeCalculator
   class CalculationError < StandardError; end
 
+  HANDLING_FEE_PERCENTAGE = 0.045
+
   def self.calculate!(course, primary_family_member, secondary_family_member = nil, tertiary_family_member = nil)
     new(course, primary_family_member, secondary_family_member, tertiary_family_member).calculate!
   end
@@ -34,7 +36,7 @@ class CourseFeeCalculator
   end
 
   def handling_fee
-    handling_fee ||= course.handling_fee
+    handling_fee ||= (course_subtotal * HANDLING_FEE_PERCENTAGE).round
   end
 
   def per_student_cost

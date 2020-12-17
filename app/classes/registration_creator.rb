@@ -33,7 +33,7 @@ class RegistrationCreator
       raise 'You are attempting to register with an invalid 2nd family member' unless family_member2_exists_and_valid?
       raise 'You are attempting to register with an invalid 3rd family member' unless family_member3_exists_and_valid?
       raise 'Not all of the specified family members are from the same family' unless family_members_together?
-      raise 'Specified total charge amount #{charge_amount} is incorrect' if charge_amount.present? && total_due_not_matched_with_expected_pay?
+      raise "Specified total charge amount #{charge_amount} is incorrect" if charge_amount.present? && total_due_not_matched_with_expected_pay?
 
       Registration.create!(registration_create_params)
     rescue => exception
@@ -92,7 +92,9 @@ class RegistrationCreator
       primary_family_member_id: family_member1.id,
       secondary_family_member_id: family_member2&.id,
       tertiary_family_member_id: family_member3&.id,
+      subtotal: calculated_total_due_specification!.course_subtotal,
       total_due: calculated_total_due_specification!.total,
+      handling_fee: calculated_total_due_specification!.handling_fee,
       total_due_by: due_date,
       status: 'pending'
     }

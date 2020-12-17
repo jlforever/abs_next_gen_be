@@ -63,6 +63,8 @@ class Registration < ApplicationRecord
       tertiary_family_member_id: tertiary_family_member_id,
       total_due: total_due,
       total_due_by: total_due_by,
+      handling_fee: handling_fee,
+      subtotal: subtotal,
       created_at: created_at,
       updated_at: updated_at
     }

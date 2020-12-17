@@ -54,7 +54,9 @@ describe RegistrationCreator do
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.accept_release_form).to be_truthy
       expect(registration.klass).to eq class1
-      expect(registration.total_due).to eq 4000
+      expect(registration.subtotal).to eq 4000
+      expect(registration.handling_fee).to eq 180
+      expect(registration.total_due).to eq 4180
     end
 
     it 'blocks same family member registering the same course for more than once' do
@@ -75,7 +77,9 @@ describe RegistrationCreator do
       expect(registration.primary_family_member).to eq family_member1
       expect(registration.secondary_family_member_id).to eq family_member3.id
       expect(registration.klass).to eq class1
-      expect(registration.total_due).to eq 6000
+      expect(registration.subtotal).to eq 6000
+      expect(registration.total_due).to eq 6270
+      expect(registration.handling_fee).to eq 270
     end
   end
 end
