@@ -60,7 +60,7 @@ class RegistrationCreator
   end
 
   def total_due_not_matched_with_expected_pay?
-    charge_amount != calculated_total_due_specification!.total
+    charge_amount.to_f != calculated_total_due_specification!.total
   end
 
   def family_member1_exists?
