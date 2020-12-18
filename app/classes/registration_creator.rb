@@ -118,6 +118,6 @@ class RegistrationCreator
   end
 
   def due_date
-    Time.zone.now + 5.days 
+    Time.zone.now + 2.days 
   end
 end
