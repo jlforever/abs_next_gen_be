@@ -15,8 +15,6 @@ describe RegistrationChargeCapturer do
 
   before do
     @fake_mailer = double('fake_mailer', deliver_now: nil)
-    allow(RegistrationMailer).to receive(:registration_with_fees_paid_confirmation).and_return(@fake_mailer)
-    allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
     allow(PaidClassSessionsCreateJob).to receive(:execute)
   end
 
@@ -45,8 +43,6 @@ describe RegistrationChargeCapturer do
 
       expect(charge.registration.status).to eq 'paid'
       expect(PaidClassSessionsCreateJob).to have_received(:execute).with(charge.registration)
-      expect(RegistrationMailer).to have_received(:registration_with_fees_paid_confirmation).with(registration_1)
-      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration_1)
     end
   end
 end

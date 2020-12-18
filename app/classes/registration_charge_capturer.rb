@@ -19,9 +19,6 @@ class RegistrationChargeCapturer
         stripe_charge_response = Stripe::Charge.create(charge_capture_params)
         registration_credit_card_charge.update!(charge_id: stripe_charge_response[:id], charge_outcome: stripe_charge_response[:outcome])
         registration.paid!
-
-        RegistrationMailer.registration_with_fees_paid_confirmation(registration).deliver_now
-        RegistrationMailer.aba_admin_registration_notification(registration).deliver_now
       end
     end
   rescue Stripe::CardError,

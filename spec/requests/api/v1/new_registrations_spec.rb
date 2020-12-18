@@ -39,10 +39,11 @@ describe Api::V1::NewRegistrationsController, type: :request do
       @fake_mailer = double('fake_mailer', deliver_now: nil)
       allow(RegistrationMailer).to receive(:registration_with_fees_paid_confirmation).and_return(@fake_mailer)
       allow(RegistrationMailer).to receive(:aba_admin_registration_notification).and_return(@fake_mailer)
+      allow(RegistrationMailer).to receive(:registration_confirmation).and_return(@fake_mailer)
       allow(PaidClassSessionsCreateJob).to receive(:execute)
     end
 
-    it 'registers the course for the family members' do
+    it 'registers the course and pays for it for the family members' do
       expect do
         post '/api/v1/new_registrations', params: create_params, headers: { 'Authorization' => "Bearer #{@token.access}" }
       end.to change { Registration.count }.by(1).
@@ -58,6 +59,21 @@ describe Api::V1::NewRegistrationsController, type: :request do
       expect(registration.status).to eq 'paid'
       expect(PaidClassSessionsCreateJob).to have_received(:execute).with(registration)
       expect(RegistrationMailer).to have_received(:registration_with_fees_paid_confirmation).with(registration)
+      expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
+    end
+
+    it 'registers the course for the family members and decides to pay for the registration later' do
+      create_params[:registration][:credit_card_id] = nil
+
+      expect do
+        post '/api/v1/new_registrations', params: create_params, headers: { 'Authorization' => "Bearer #{@token.access}" }
+      end.to change { Registration.count }.by(1).
+        and change { RegistrationCreditCardCharge.count }.by(0)
+
+      registration = Registration.last
+      expect(registration.status).to eq 'pending'
+      expect(PaidClassSessionsCreateJob).to_not have_received(:execute)
+      expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)
       expect(RegistrationMailer).to have_received(:aba_admin_registration_notification).with(registration)
     end
   end

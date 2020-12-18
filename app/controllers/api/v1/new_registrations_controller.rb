@@ -33,15 +33,18 @@ module Api
               family_member1,
               family_member2,
               family_member3,
-              registration_create_params[:charge_amount].to_f
+              registration_create_params[:charge_amount]
             )
 
-            RegistrationChargeCapturer.capture!(
-              registration,
-              registration_create_params[:charge_amount],
-              credit_card
-            )
+            unless pay_later?
+              RegistrationChargeCapturer.capture!(
+                registration,
+                registration_create_params[:charge_amount],
+                credit_card
+              )
+            end
 
+            PostRegistrationNotifier.notify(registration.reload)
             render json: { registration: registration.as_serialized_hash }, status: :created
           end
         rescue RegistrationCreator::CreationError, RegistrationChargeCapturer::CaptureError => exception
@@ -50,6 +53,10 @@ module Api
       end
 
       private
+
+      def pay_later?
+        registration_create_params[:credit_card_id].blank? 
+      end
 
       def user_email
         params.require(:user_email)

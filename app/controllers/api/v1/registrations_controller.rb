@@ -31,6 +31,8 @@ module Api
             family_member2,
             family_member3
           )
+
+          PostRegistrationNotifier.notify(registration.reload)
           render json: { registration: registration.as_serialized_hash }, status: :created
         rescue RegistrationCreator::CreationError => exception
           render json: { errors: { registration_creation_error: exception.to_s } }, status: :internal_server_error
