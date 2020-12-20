@@ -5,7 +5,7 @@
   </head>
   <body>
     <p><%= "Dear " + @parent_first_name + "," %></p>
-    <p><%= "We are very pleased that you've registered with Alpha Beta Academy. Please make sure to send a PayPal payment of an amount of $" + @fee.to_s + " payable to SYL4EVER@GMAIL.COM by " + @total_due_by.strftime("%m-%d-%Y %H:%M:%S") + "." %></p> 
+    <p><%= "We are very pleased that you've registered with Alpha Beta Academy for: " + @klass_category + ". You can send a PayPal payment of an amount of $" + @fee.to_s + " payable to account: admin@alphabetaschool.org. For PayPal, select option 'Pay to family or friends' to save the transaction processing fees. Alternatively, you can also send a Zelle payment of an amount of $" + @fee.to_s + ", payable to account: admin@alphabetaschool.org. For either PayPal or Zelle, make sure to annotate in the payment note, 孩子名字和报名课程. Please send the payment by " + @total_due_by.strftime("%m-%d-%Y %H:%M:%S") + " to avoid the possibility of registration cancellation." %></p> 
     <p>Once we have received the payment and have processed the registration, we will send out a confirmation email detailing the next steps.</p>
 
     <p>Below are some quick tips:</p>
