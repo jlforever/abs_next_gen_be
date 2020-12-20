@@ -12,6 +12,7 @@ class RegistrationMailer < ApplicationMailer
     parent_user = registration.primary_family_member.parent.user
     to_address = parent_user.email
 
+    @klass_category = registration.klass.specialty.category
     @parent_first_name = parent_user.first_name
     @fee = registration.total_due / 100.0
     @total_due_by = registration.total_due_by
