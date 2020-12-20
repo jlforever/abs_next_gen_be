@@ -9,7 +9,7 @@ class PaidClassSessionsCreateJob < ApplicationJob
 
       registration.class_sessions.create!(
         status: 'upcoming',
-        effective_for: specific_date,
+        effective_for: specific_date + 9.hours,
         associate_teaching_session_id: associate_teaching_session.id
       )
     end
@@ -23,7 +23,7 @@ class PaidClassSessionsCreateJob < ApplicationJob
 
       registration.class_sessions.create!(
         status: 'upcoming',
-        effective_for: specific_date,
+        effective_for: specific_date + 9.hours,
         associate_teaching_session_id: associate_teaching_session.id
       )
     end
