@@ -49,9 +49,9 @@ describe Api::V1::RegistrationsController, type: :request do
       expect(response.status).to eq 200
       body = JSON.parse(response.body).with_indifferent_access
 
-      expect(body[:amount_specification][:course_subtotal]).to eq 6000
-      expect(body[:amount_specification][:handling_fee]).to eq 270
-      expect(body[:amount_specification][:total]).to eq 6270
+      expect(body[:amount_specification][:course_subtotal]).to eq 9000
+      expect(body[:amount_specification][:handling_fee]).to eq 405
+      expect(body[:amount_specification][:total]).to eq 9405
     end
   end
 
@@ -213,9 +213,9 @@ describe Api::V1::RegistrationsController, type: :request do
       expect(body[:registration][:course][:id]).to eq params[:registration][:course_id]
       expect(body[:registration][:primary_family_member_id]).to eq family_member1.id
       expect(body[:registration][:secondary_family_member_id]).to eq family_member3.id
-      expect(body[:registration][:total_due]).to eq 6270
-      expect(body[:registration][:handling_fee]).to eq 270
-      expect(body[:registration][:subtotal]).to eq 6000
+      expect(body[:registration][:total_due]).to eq 9405
+      expect(body[:registration][:handling_fee]).to eq 405
+      expect(body[:registration][:subtotal]).to eq 9000
       expect(body[:registration][:accept_release_form]).to be_truthy
       registration = Registration.last
       expect(RegistrationMailer).to have_received(:registration_confirmation).with(registration)

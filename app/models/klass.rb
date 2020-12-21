@@ -76,7 +76,7 @@ class Klass < ApplicationRecord
 
   def remaining_session_dates_from_reference_date(referencce_date)
     expected_session_dates.find_all do |date|
-      date >= referencce_date
+      date >= referencce_date.to_date
     end
   end
 
