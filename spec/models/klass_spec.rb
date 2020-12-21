@@ -57,6 +57,42 @@ describe Klass do
     end
   end
 
+  describe '#remaining_session_dates_from_reference_date' do
+    let(:testing_time) { Time.zone.local(2020, 12, 20, 10) }
+    let!(:faculty_user) { create(:user, password: 'aeiou12345!') }
+    let!(:faculty) { create(:faculty, user: faculty_user) }
+    let!(:class1) do
+      Timecop.freeze(testing_time) do
+        create(:klass,
+          faculty: faculty,
+          effective_from: testing_time - 3.days,
+          effective_until: testing_time + 9.days,
+          reg_effective_from: testing_time - 3.days,
+          reg_effective_until: testing_time + 9.days
+        )
+      end
+    end
+
+    it 'properly includes the same date session date, when reference date time is on or before session exact time' do
+      days_offset = 3
+      hours_offset = 7
+      minutes_offset = 20
+
+      Timecop.freeze(testing_time + days_offset.days + hours_offset.hours + minutes_offset.minutes) do
+        expect(class1.remaining_session_dates_from_reference_date(Time.zone.now).size).to eq 2
+      end
+    end
+
+    it 'properly execludes the same date session date, when reference date time is after the session exact time' do
+      days_offset = 3
+      hours_offset = 8
+
+      Timecop.freeze(testing_time + days_offset.days + hours_offset.hours) do
+        expect(class1.remaining_session_dates_from_reference_date(Time.zone.now).size).to eq 1
+      end
+    end
+  end
+
   describe '#expected_session_dates' do
     let!(:vacay_date1) { create(:klass_vacay_date, klass: class1, off_date: '2020-06-01') }
     let!(:vacay_date2) { create(:klass_vacay_date, klass: class1, off_date: '2020-06-10') }
