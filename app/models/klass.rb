@@ -76,7 +76,8 @@ class Klass < ApplicationRecord
 
   def remaining_session_dates_from_reference_date(referencce_date)
     expected_session_dates.find_all do |date|
-      date >= referencce_date.to_date
+      hours_offset, minutes_offset = individual_session_starts_at.split(":").map(&:to_i)
+      (date + hours_offset.hours + minutes_offset.minutes) >= referencce_date
     end
   end
 
