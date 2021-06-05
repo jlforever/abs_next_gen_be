@@ -12,3 +12,8 @@ desc 'seed the Nov 2020 to Dec 2020, specialty, faculty, klass'
 task seed_nov_2020_to_dec_2020_specialty_faculty_klass_data: :environment do
   CoursesSeeders::S20201010.seed!
 end
+
+desc 'seed the June 2021 to Aug 2021 specialty, faculty, klassese'
+task seed_nov_2020_to_dec_2020_specialty_faculty_klass_data: :environment do
+  CoursesSeeders::S20210605.seed!
+end
