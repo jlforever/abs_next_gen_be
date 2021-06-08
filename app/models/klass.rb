@@ -64,7 +64,7 @@ class Klass < ApplicationRecord
     first_occur_wod = occur_on_week_days.first
     second_occur_wod = occur_on_week_days.last
 
-    offset_days = (0..7).to_a.detect do |day_increment|
+    offset_days = (0..14).to_a.detect do |day_increment|
       comparable_date = (effective_from + day_increment.days)
 
       !vacay_date_strings.include?(comparable_date.strftime('%Y-%m-%d')) &&
