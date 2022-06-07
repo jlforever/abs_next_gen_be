@@ -996,7 +996,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     jwt (2.2.1)
     jwt_sessions (2.5.1)
       jwt (>= 2.1.1, < 3)
